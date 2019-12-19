@@ -24,7 +24,7 @@ buildscript {
     } 
 
     dependencies {
-        classpath "org.elasticsearch.gradle:build-tools:${es_version}"
+        classpath "org.elasticsearch.gradle:build-tools:6.5.0"
     }
 }
 
