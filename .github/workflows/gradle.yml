@@ -10,10 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Set up JDK 1.10
+      - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 1.10
+          java-version: jdk10
 
       - name: Get Artifact
         run: ./gradlew assemble
