@@ -29,7 +29,7 @@ jobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: opendistro-sql
+        name: opendistro-sql-1.6.0.0
         path: opendistro-sql-builds
 
     - name: Configure AWS Credentials
