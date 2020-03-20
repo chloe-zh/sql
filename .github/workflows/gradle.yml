@@ -1,6 +1,9 @@
 name: Java CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - docker
 
 jobs:
   build:
@@ -28,3 +31,14 @@ jobs:
       with:
         name: opendistro-sql
         path: opendistro-sql-builds
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Update S3 With Latest Artfifacts
+      run: |
+        aws s3 cp opendistro-sql-builds/*.zip s3://swift-us-west-2-dev.sql-workbench/sql-kibana-plugin/
