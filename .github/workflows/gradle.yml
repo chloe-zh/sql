@@ -41,4 +41,4 @@ jobs:
 
     - name: Update S3 With Latest Artfifacts
       run: |
-        aws s3 cp opendistro-sql-builds/*.zip s3://swift-us-west-2-dev.sql-workbench/sql-kibana-plugin/
+        aws s3 cp opendistro-sql-builds/*.zip s3://swift-us-west-2-dev.sql-workbench/sql-plugin/
