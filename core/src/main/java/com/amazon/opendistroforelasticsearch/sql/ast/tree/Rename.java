@@ -31,6 +31,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Rename extends UnresolvedPlan {
     private final List<Map> renameList;
+    @ToString.Exclude
     private UnresolvedPlan child;
 
     public Rename(List<Map> renameList, UnresolvedPlan child) {

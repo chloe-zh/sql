@@ -33,6 +33,8 @@ import org.elasticsearch.rest.RestChannel;
 import org.elasticsearch.rest.RestController;
 import org.elasticsearch.rest.RestRequest;
 import org.elasticsearch.rest.RestStatus;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
@@ -66,8 +68,20 @@ public class RestPPLQueryAction extends BaseRestHandler {
     @Override
     protected RestChannelConsumer prepareRequest(RestRequest request, NodeClient nodeClient) {
         PPLService pplService = createPPLService(nodeClient);
-        return channel -> pplService.execute(
-            PPLQueryRequestFactory.getPPLRequest(request), createListener(channel));
+        String query = parseQueryFromPayload(request);
+        return channel -> channel.sendResponse(
+                new BytesRestResponse(OK, "application/json; charset=UTF-8", pplService.explain(query)));
+    }
+
+    private String parseQueryFromPayload(RestRequest restRequest) {
+        String content = restRequest.content().utf8ToString();
+        JSONObject jsonContent;
+        try {
+            jsonContent = new JSONObject(content);
+        } catch (JSONException e) {
+            throw new IllegalArgumentException("Failed to parse request payload", e);
+        }
+        return jsonContent.optString("query");
     }
 
     private PPLService createPPLService(NodeClient client) {

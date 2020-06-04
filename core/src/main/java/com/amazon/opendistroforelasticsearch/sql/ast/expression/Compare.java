@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@ToString
+//@ToString
 @EqualsAndHashCode(callSuper = false)
 @RequiredArgsConstructor
 public class Compare extends UnresolvedExpression {
@@ -39,5 +39,10 @@ public class Compare extends UnresolvedExpression {
     @Override
     public <R, C> R accept(AbstractNodeVisitor<R, C> nodeVisitor, C context) {
         return nodeVisitor.visitCompare(this, context);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[%s %s %s]", left.toString(), operator, right.toString());
     }
 }

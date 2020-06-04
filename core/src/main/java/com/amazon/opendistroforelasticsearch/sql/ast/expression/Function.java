@@ -28,7 +28,7 @@ import lombok.ToString;
  * Params include function name (@funcName) and function arguments (@funcArgs)
  */
 @Getter
-@ToString
+//@ToString
 @EqualsAndHashCode(callSuper = false)
 @RequiredArgsConstructor
 public class Function extends UnresolvedExpression {
@@ -43,5 +43,10 @@ public class Function extends UnresolvedExpression {
     @Override
     public <R, C> R accept(AbstractNodeVisitor<R, C> nodeVisitor, C context) {
         return nodeVisitor.visitFunction(this, context);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s(%s)", funcName, String.join(", ", funcArgs.toString()));
     }
 }

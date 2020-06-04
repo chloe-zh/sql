@@ -37,7 +37,9 @@ public class Aggregation extends UnresolvedPlan {
     private List<UnresolvedExpression> aggExprList;
     private List<UnresolvedExpression> sortExprList;
     private List<UnresolvedExpression> groupExprList;
+    @ToString.Exclude
     private List<Argument> argExprList;
+    @ToString.Exclude
     private UnresolvedPlan child;
 
     public Aggregation(List<UnresolvedExpression> aggExprList,

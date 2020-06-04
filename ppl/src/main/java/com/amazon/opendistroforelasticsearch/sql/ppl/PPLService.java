@@ -17,12 +17,11 @@ package com.amazon.opendistroforelasticsearch.sql.ppl;
 
 import com.amazon.opendistroforelasticsearch.sql.analysis.AnalysisContext;
 import com.amazon.opendistroforelasticsearch.sql.analysis.Analyzer;
-import com.amazon.opendistroforelasticsearch.sql.analysis.ExpressionAnalyzer;
+import com.amazon.opendistroforelasticsearch.sql.ast.AbstractNodeVisitor;
+import com.amazon.opendistroforelasticsearch.sql.ast.Node;
 import com.amazon.opendistroforelasticsearch.sql.ast.tree.UnresolvedPlan;
 import com.amazon.opendistroforelasticsearch.sql.common.response.ResponseListener;
 import com.amazon.opendistroforelasticsearch.sql.executor.ExecutionEngine;
-import com.amazon.opendistroforelasticsearch.sql.expression.DSL;
-import com.amazon.opendistroforelasticsearch.sql.expression.function.BuiltinFunctionRepository;
 import com.amazon.opendistroforelasticsearch.sql.planner.Planner;
 import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalPlan;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.PhysicalPlan;
@@ -31,10 +30,10 @@ import com.amazon.opendistroforelasticsearch.sql.ppl.domain.PPLQueryRequest;
 import com.amazon.opendistroforelasticsearch.sql.ppl.parser.AstBuilder;
 import com.amazon.opendistroforelasticsearch.sql.ppl.parser.AstExpressionBuilder;
 import com.amazon.opendistroforelasticsearch.sql.storage.StorageEngine;
+import com.google.common.base.Strings;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.tree.ParseTree;
-
-import java.util.HashMap;
 
 import static com.amazon.opendistroforelasticsearch.sql.executor.ExecutionEngine.QueryResponse;
 
@@ -65,5 +64,25 @@ public class PPLService {
         } catch (Exception e) {
             listener.onFailure(e);
         }
+    }
+
+    public String explain(String query) {
+        AstBuilder astBuilder = new AstBuilder(new AstExpressionBuilder());
+        UnresolvedPlan root = astBuilder.visit(parser.analyzeSyntax(query));
+
+    return "BEGIN\n\n|\n|\nv\n\n"
+        + root.accept(
+            new AbstractNodeVisitor<String, Integer>() {
+              @Override
+              public String visitChildren(Node node, Integer depth) {
+                //                return node.toString();
+                return node
+                    + "\n\n|\n|\nv\n\n"
+                    + node.getChild().stream()
+                        .map(c -> c.accept(this, depth + 1))
+                        .collect(Collectors.joining("\n\n|\n|\nv\n\n"));
+              }
+            },
+            0) + "END\n";
     }
 }

@@ -26,7 +26,7 @@ import lombok.ToString;
 /**
  * Expression node of binary operator or comparison relation EQUAL
  */
-@ToString
+//@ToString
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 public class EqualTo extends UnresolvedExpression {
@@ -43,5 +43,10 @@ public class EqualTo extends UnresolvedExpression {
     @Override
     public <R, C> R accept(AbstractNodeVisitor<R, C> nodeVisitor, C context) {
         return nodeVisitor.visitEqualTo(this, context);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s==%s", left.toString(), right.toString());
     }
 }

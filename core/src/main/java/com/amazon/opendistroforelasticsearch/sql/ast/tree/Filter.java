@@ -31,6 +31,7 @@ import lombok.ToString;
 @Getter
 public class Filter extends UnresolvedPlan {
     private UnresolvedExpression condition;
+    @ToString.Exclude
     private UnresolvedPlan child;
 
     public Filter(UnresolvedExpression condition) {

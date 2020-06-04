@@ -37,7 +37,9 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Dedupe extends UnresolvedPlan {
+  @ToString.Exclude
   private UnresolvedPlan child;
+  @ToString.Exclude
   private final List<Argument> options;
   private final List<Field> fields;
 

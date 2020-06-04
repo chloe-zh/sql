@@ -30,6 +30,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class Field extends UnresolvedExpression {
     private QualifiedName field;
+    @ToString.Exclude
     private List<Argument> fieldArgs = Collections.emptyList();
 
     public Field(QualifiedName field) {

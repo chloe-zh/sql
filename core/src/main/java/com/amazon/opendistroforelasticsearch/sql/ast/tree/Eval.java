@@ -33,6 +33,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class Eval extends UnresolvedPlan {
   private final List<Let> expressionList;
+  @ToString.Exclude
   private UnresolvedPlan child;
 
   @Override

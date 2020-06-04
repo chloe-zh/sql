@@ -35,7 +35,9 @@ import lombok.ToString;
 public class Project extends UnresolvedPlan {
     @Setter
     private List<UnresolvedExpression> projectList;
+    @ToString.Exclude
     private List<Argument> argExprList;
+    @ToString.Exclude
     private UnresolvedPlan child;
 
     public Project(List<UnresolvedExpression> projectList) {
