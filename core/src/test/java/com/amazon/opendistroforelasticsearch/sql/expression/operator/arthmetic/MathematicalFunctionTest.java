@@ -249,9 +249,8 @@ public class MathematicalFunctionTest extends ExpressionTestBase {
   @MethodSource("testLogArguments")
   public void log_double_value(Double v1, Double v2) {
     FunctionExpression log = dsl.log(typeEnv, DSL.literal(v1), DSL.literal(v2));
-    assertThat(
-        log.valueOf(valueEnv()),
-        allOf(hasType(ExprType.DOUBLE), hasValue(Math.log(v2) / Math.log(v1))));
+    assertEquals(ExprType.DOUBLE, log.type(typeEnv()));
+    assertEquals(Math.log(v2) / Math.log(v1), getDoubleValue(log.valueOf(valueEnv())));
     assertEquals(String.format("log(%s, %s)", v1.toString(), v2.toString()), log.toString());
   }
 
@@ -292,15 +291,14 @@ public class MathematicalFunctionTest extends ExpressionTestBase {
   }
 
   /**
-   * Test ln with double value.
+   * Test pi with double value.
    */
   @Test
   public void pi_double_value() {
     FunctionExpression pi = dsl.pi(typeEnv);
-    assertThat(
-        pi.valueOf(valueEnv()),
-        allOf(hasType(ExprType.DOUBLE),
-            hasValue(new BigDecimal(Math.PI).setScale(10, RoundingMode.HALF_UP).doubleValue())));
+    assertEquals(ExprType.DOUBLE, pi.type(typeEnv()));
+    assertEquals(new BigDecimal(Math.PI).setScale(10, RoundingMode.HALF_UP).doubleValue(),
+        getDoubleValue(pi.valueOf(valueEnv())));
     assertEquals("pi()", pi.toString());
   }
 
@@ -311,15 +309,13 @@ public class MathematicalFunctionTest extends ExpressionTestBase {
   @MethodSource("testPowArguments")
   public void pow_double_value(Double v1, Double v2) {
     FunctionExpression pow = dsl.pow(typeEnv, DSL.literal(v1), DSL.literal(v2));
-    assertThat(
-        pow.valueOf(valueEnv()),
-        allOf(hasType(ExprType.DOUBLE), hasValue(Math.pow(v1, v2))));
+    assertEquals(ExprType.DOUBLE, pow.type(typeEnv()));
+    assertEquals(Math.pow(v1, v2), getDoubleValue(pow.valueOf(valueEnv())));
     assertEquals(String.format("pow(%s, %s)", v1.toString(), v2.toString()), pow.toString());
 
     FunctionExpression power = dsl.power(typeEnv, DSL.literal(v1), DSL.literal(v2));
-    assertThat(
-        power.valueOf(valueEnv()),
-        allOf(hasType(ExprType.DOUBLE), hasValue(Math.pow(v1, v2))));
+    assertEquals(ExprType.DOUBLE, power.type(typeEnv()));
+    assertEquals(Math.pow(v1, v2), getDoubleValue(power.valueOf(valueEnv())));
     assertEquals(String.format("power(%s, %s)", v1.toString(), v2.toString()), power.toString());
   }
 
@@ -379,6 +375,7 @@ public class MathematicalFunctionTest extends ExpressionTestBase {
     assertEquals(ExprType.FLOAT, round.type(typeEnv()));
     assertEquals(new BigDecimal(value).setScale(1, RoundingMode.HALF_UP).floatValue(),
         getDoubleValue(round.valueOf(valueEnv())));
+    assertEquals(String.format("round(%s, 1)", value.toString()), round.toString());
   }
 
   /**
@@ -396,6 +393,7 @@ public class MathematicalFunctionTest extends ExpressionTestBase {
     assertEquals(ExprType.DOUBLE, round.type(typeEnv()));
     assertEquals(new BigDecimal(value).setScale(1, RoundingMode.HALF_UP).doubleValue(),
         getDoubleValue(round.valueOf(valueEnv())));
+    assertEquals(String.format("round(%s, 1)", value.toString()), round.toString());
   }
 
   @Test

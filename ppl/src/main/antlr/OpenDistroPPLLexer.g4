@@ -97,6 +97,7 @@ DOUBLE_QUOTE:                       '"';
 BACKTICK:                           '`';
 
 // AGGREGATIONS
+PERCENTILE:                         'PERCENTILE';
 AVG:                                'AVG';
 COUNT:                              'COUNT';
 SUM:                                'SUM';
@@ -106,7 +107,6 @@ SUM:                                'SUM';
 ABS:                                'ABS';
 CEIL:                               'CEIL';
 CEILING:                            'CEILING';
-EXACT:                              'EXACT';
 EXP:                                'EXP';
 FLOOR:                              'FLOOR';
 LN:                                 'LN';
@@ -115,50 +115,8 @@ PI:                                 'PI';
 POW:                                'POW';
 POWER:                              'POWER';
 ROUND:                              'ROUND';
-SIGFIG:                             'SIGFIG';
 SQRT:                               'SQRT';
 
-// ES FUNCTIONS
-DATE_HISTOGRAM:                     'DATE_HISTOGRAM';
-DAY_OF_MONTH:                       'DAY_OF_MONTH';
-DAY_OF_YEAR:                        'DAY_OF_YEAR';
-DAY_OF_WEEK:                        'DAY_OF_WEEK';
-EXCLUDE:                            'EXCLUDE';
-EXTENDED_STATS:                     'EXTENDED_STATS';
-FIELD:                              'FIELD';
-FILTER:                             'FILTER';
-GEO_BOUNDING_BOX:                   'GEO_BOUNDING_BOX';
-GEO_CELL:                           'GEO_CELL';
-GEO_DISTANCE:                       'GEO_DISTANCE';
-GEO_DISTANCE_RANGE:                 'GEO_DISTANCE_RANGE';
-GEO_INTERSECTS:                     'GEO_INTERSECTS';
-GEO_POLYGON:                        'GEO_POLYGON';
-HISTOGRAM:                          'HISTOGRAM';
-HOUR_OF_DAY:                        'HOUR_OF_DAY';
-INCLUDE:                            'INCLUDE';
-IN_TERMS:                           'IN_TERMS';
-MATCHPHRASE:                        'MATCHPHRASE';
-MATCH_PHRASE:                       'MATCH_PHRASE';
-MATCHQUERY:                         'MATCHQUERY';
-MATCH_QUERY:                        'MATCH_QUERY';
-MINUTE_OF_DAY:                      'MINUTE_OF_DAY';
-MINUTE_OF_HOUR:                     'MINUTE_OF_HOUR';
-MONTH_OF_YEAR:                      'MONTH_OF_YEAR';
-MULTIMATCH:                         'MULTIMATCH';
-MULTI_MATCH:                        'MULTI_MATCH';
-NESTED:                             'NESTED';
-PERCENTILES:                        'PERCENTILES';
-REGEXP_QUERY:                       'REGEXP_QUERY';
-REVERSE_NESTED:                     'REVERSE_NESTED';
-QUERY:                              'QUERY';
-SCORE:                              'SCORE';
-SECOND_OF_MINUTE:                   'SECOND_OF_MINUTE';
-TERM:                               'TERM';
-TERMS:                              'TERMS';
-TOPHITS:                            'TOPHITS';
-WEEK_OF_YEAR:                       'WEEK_OF_YEAR';
-WILDCARDQUERY:                      'WILDCARDQUERY';
-WILDCARD_QUERY:                     'WILDCARD_QUERY';
 
 // LITERALS AND VALUES
 //STRING_LITERAL:                     DQUOTA_STRING | SQUOTA_STRING | BQUOTA_STRING;

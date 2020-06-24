@@ -190,12 +190,8 @@ public class MathematicalFunction {
         roundFunction(BuiltinFunctionName.ROUND.getName(),
             Math::round,
             Math::round,
-            (v1, v2) -> v2 == 0
-                ? Math.round(v1)
-                : new BigDecimal(v1).setScale(v2, RoundingMode.HALF_UP).floatValue(),
-            (v1, v2) -> v2 == 0
-                ? Math.round(v1)
-                : new BigDecimal(v1).setScale(v2, RoundingMode.HALF_UP).doubleValue()
+            (v1, v2) -> new BigDecimal(v1).setScale(v2, RoundingMode.HALF_UP).floatValue(),
+            (v1, v2) -> new BigDecimal(v1).setScale(v2, RoundingMode.HALF_UP).doubleValue()
         )
     );
   }

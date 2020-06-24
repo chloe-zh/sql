@@ -203,7 +203,7 @@ functionArg
     ;
 
 mathematicalFunctionBase
-    : ABS | CEIL | CEILING | EXACT | EXP | FLOOR | LN | LOG | PI | POW | POWER | ROUND | SIGFIG | SQRT
+    : ABS | CEIL | CEILING | EXP | FLOOR | LN | LOG | PI | POW | POWER | ROUND | SQRT
     ;
 
 dateAndTimeFunctionBase
