@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
-import java.util.regex.Pattern;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 
@@ -45,12 +45,12 @@ public class OperatorUtils {
    * @param <R>          the type of the result of the function
    * @return {@link FunctionBuilder}
    */
-  public static <T, R> FunctionBuilder binaryOperator(
+  public static <T, R> FunctionBuilder doubleArgFunctionBuilder(
       FunctionName functionName,
       BiFunction<T, T, R> function,
       Function<ExprValue, T> observer,
       ExprType returnType) {
-    return binaryOperator(functionName, function, observer, observer, returnType);
+    return doubleArgFunctionBuilder(functionName, function, observer, observer, returnType);
   }
 
   /**
@@ -69,7 +69,7 @@ public class OperatorUtils {
    * @param <R>          the type of the result of the function
    * @return {@link FunctionBuilder}
    */
-  public static <T, U, R> FunctionBuilder binaryOperator(
+  public static <T, U, R> FunctionBuilder doubleArgFunctionBuilder(
       FunctionName functionName,
       BiFunction<T, U, R> function,
       Function<ExprValue, T> observer1,
@@ -118,7 +118,7 @@ public class OperatorUtils {
    * @param <R>          the type of the result of the function
    * @return {@link FunctionBuilder}
    */
-  public static <T, R> FunctionBuilder unaryOperator(
+  public static <T, R> FunctionBuilder singleArgFunctionBuilder(
       FunctionName functionName,
       Function<T, R> function,
       Function<ExprValue, T> observer,
@@ -150,6 +150,40 @@ public class OperatorUtils {
                     .collect(Collectors.joining(", ")));
           }
         };
+  }
+
+  /**
+   * Construct {@link FunctionBuilder} which call function with arguments produced by observer In
+   * general, if any operand evaluates to a MISSING value, the enclosing operator will return
+   * MISSING; if none of operands evaluates to a MISSING value but there is an operand evaluates to
+   * a NULL value, the enclosing operator will return NULL.
+   *
+   * @param functionName function name
+   * @param function     {@link Function}
+   * @param returnType   return type
+   * @param <T>          the type of the result of the function
+   * @return {@link FunctionBuilder}
+   */
+  public static <T> FunctionBuilder noArgFunctionBuilder(
+      FunctionName functionName,
+      Supplier<T> function,
+      ExprType returnType) {
+    return arguments -> new FunctionExpression(functionName, arguments) {
+      @Override
+      public ExprValue valueOf(Environment<Expression, ExprValue> env) {
+        return ExprValueUtils.fromObjectValue(function.get());
+      }
+
+      @Override
+      public ExprType type(Environment<Expression, ExprType> env) {
+        return returnType;
+      }
+
+      @Override
+      public String toString() {
+        return String.format("%s()", functionName);
+      }
+    };
   }
 
   /**

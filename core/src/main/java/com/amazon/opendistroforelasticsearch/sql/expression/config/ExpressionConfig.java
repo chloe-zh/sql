@@ -18,8 +18,8 @@ package com.amazon.opendistroforelasticsearch.sql.expression.config;
 import com.amazon.opendistroforelasticsearch.sql.expression.DSL;
 import com.amazon.opendistroforelasticsearch.sql.expression.aggregation.AggregatorFunction;
 import com.amazon.opendistroforelasticsearch.sql.expression.function.BuiltinFunctionRepository;
-import com.amazon.opendistroforelasticsearch.sql.expression.operator.arthmetic.ArithmeticFunction;
-import com.amazon.opendistroforelasticsearch.sql.expression.operator.arthmetic.UnaryFunction;
+import com.amazon.opendistroforelasticsearch.sql.expression.operator.arthmetic.ArithmeticOperator;
+import com.amazon.opendistroforelasticsearch.sql.expression.operator.arthmetic.MathematicalFunction;
 import com.amazon.opendistroforelasticsearch.sql.expression.operator.predicate.BinaryPredicateOperator;
 import com.amazon.opendistroforelasticsearch.sql.expression.operator.predicate.UnaryPredicateOperator;
 import java.util.HashMap;
@@ -38,9 +38,9 @@ public class ExpressionConfig {
   public BuiltinFunctionRepository functionRepository() {
     BuiltinFunctionRepository builtinFunctionRepository =
         new BuiltinFunctionRepository(new HashMap<>());
-    ArithmeticFunction.register(builtinFunctionRepository);
+    ArithmeticOperator.register(builtinFunctionRepository);
     BinaryPredicateOperator.register(builtinFunctionRepository);
-    UnaryFunction.register(builtinFunctionRepository);
+    MathematicalFunction.register(builtinFunctionRepository);
     UnaryPredicateOperator.register(builtinFunctionRepository);
     AggregatorFunction.register(builtinFunctionRepository);
     return builtinFunctionRepository;

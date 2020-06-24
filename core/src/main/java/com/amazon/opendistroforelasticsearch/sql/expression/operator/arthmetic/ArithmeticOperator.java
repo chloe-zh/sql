@@ -15,7 +15,7 @@
 
 package com.amazon.opendistroforelasticsearch.sql.expression.operator.arthmetic;
 
-import static com.amazon.opendistroforelasticsearch.sql.expression.operator.OperatorUtils.binaryOperator;
+import static com.amazon.opendistroforelasticsearch.sql.expression.operator.OperatorUtils.doubleArgFunctionBuilder;
 
 import com.amazon.opendistroforelasticsearch.sql.data.model.ExprType;
 import com.amazon.opendistroforelasticsearch.sql.data.model.ExprValueUtils;
@@ -25,6 +25,7 @@ import com.amazon.opendistroforelasticsearch.sql.expression.function.FunctionBui
 import com.amazon.opendistroforelasticsearch.sql.expression.function.FunctionName;
 import com.amazon.opendistroforelasticsearch.sql.expression.function.FunctionResolver;
 import com.amazon.opendistroforelasticsearch.sql.expression.function.FunctionSignature;
+import com.amazon.opendistroforelasticsearch.sql.expression.operator.OperatorUtils;
 import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
 import java.util.Map;
@@ -40,9 +41,9 @@ import lombok.experimental.UtilityClass;
  * module, Accepts two numbers and produces a number.
  */
 @UtilityClass
-public class ArithmeticFunction {
+public class ArithmeticOperator {
   /**
-   * Register Arithmetic Function.
+   * Register Arithmetic Operators.
    * @param repository {@link BuiltinFunctionRepository}.
    */
   public static void register(BuiltinFunctionRepository repository) {
@@ -118,15 +119,17 @@ public class ArithmeticFunction {
     ImmutableMap.Builder<FunctionSignature, FunctionBuilder> builder = new ImmutableMap.Builder<>();
     builder
         .put(new FunctionSignature(functionName, Arrays.asList(ExprType.INTEGER, ExprType.INTEGER)),
-            binaryOperator(functionName, integerFunc, ExprValueUtils::getIntegerValue,
+            doubleArgFunctionBuilder(functionName, integerFunc, ExprValueUtils::getIntegerValue,
                 ExprType.INTEGER));
     builder.put(new FunctionSignature(functionName, Arrays.asList(ExprType.LONG, ExprType.LONG)),
-        binaryOperator(functionName, longFunc, ExprValueUtils::getLongValue, ExprType.LONG));
+        doubleArgFunctionBuilder(
+            functionName, longFunc, ExprValueUtils::getLongValue, ExprType.LONG));
     builder.put(new FunctionSignature(functionName, Arrays.asList(ExprType.FLOAT, ExprType.FLOAT)),
-        binaryOperator(functionName, floatFunc, ExprValueUtils::getFloatValue, ExprType.FLOAT));
+        doubleArgFunctionBuilder(
+            functionName, floatFunc, ExprValueUtils::getFloatValue, ExprType.FLOAT));
     builder
         .put(new FunctionSignature(functionName, Arrays.asList(ExprType.DOUBLE, ExprType.DOUBLE)),
-            binaryOperator(functionName, doubleFunc, ExprValueUtils::getDoubleValue,
+            doubleArgFunctionBuilder(functionName, doubleFunc, ExprValueUtils::getDoubleValue,
                 ExprType.DOUBLE));
     return builder.build();
   }

@@ -46,7 +46,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class ArithmeticFunctionTest extends ExpressionTestBase {
+class ArithmeticOperatorTest extends ExpressionTestBase {
 
   private static Stream<Arguments> arithmeticFunctionArguments() {
     List<ExprValue> numberOp1 = Stream.of(3, 3L, 3f, 3D)
