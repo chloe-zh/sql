@@ -168,6 +168,16 @@ RADIANS:                            'RADIANS';
 SIN:                                'SIN';
 TAN:                                'TAN';
 
+// DATE AND TIME FUNCTIONS
+ADDDATE:                            'ADDDATE';
+ADDTIME:                            'ADDTIME';
+CONVERT_TZ:                         'CONVERT_TZ';
+CURDATE:                            'CURDATE';
+CURRENT_DATE:                       'CURRENT_DATE';
+CURRENT_TIME:                       'CURRENT_TIME';
+CURRENT_TIMESTAMP:                  'CURRENT_TIMESTAMP';
+CURTIME:                            'CURTIME';
+
 // LITERALS AND VALUES
 //STRING_LITERAL:                     DQUOTA_STRING | SQUOTA_STRING | BQUOTA_STRING;
 ID:                                 ID_LITERAL;

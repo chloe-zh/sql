@@ -49,6 +49,19 @@ public enum BuiltinFunctionName {
   TAN(FunctionName.of("tan")),
 
   /**
+   * Date and Time Functions.
+   */
+  ADDDATE(FunctionName.of("adddate")),
+  ADDTIME(FunctionName.of("addtime")),
+  CONVERT_TZ(FunctionName.of("convert_tz")),
+  CURDATE(FunctionName.of("curdate")),
+  CURRENT_DATE(FunctionName.of("current_date")),
+  CURRENT_TIME(FunctionName.of("current_time")),
+  CURRENT_TIMESTAMP(FunctionName.of("current_timestamp")),
+  CURTIME(FunctionName.of("curtime")),
+
+
+  /**
    * Text Functions.
    */
   TOSTRING(FunctionName.of("tostring")),

@@ -147,7 +147,6 @@ COS:                                'COS';
 COSH:                               'COSH';
 COT:                                'COT';
 CRC32:                              'CRC32';
-CURDATE:                            'CURDATE';
 DATE:                               'DATE';
 DATE_FORMAT:                        'DATE_FORMAT';
 DAYOFMONTH:                         'DAYOFMONTH';
@@ -193,6 +192,16 @@ TIME:                               'TIME';
 TIMESTAMP:                          'TIMESTAMP';
 TRUNCATE:                           'TRUNCATE';
 UPPER:                              'UPPER';
+
+// DATE AND TIME FUNCTIONS
+ADDDATE:                            'ADDDATE';
+ADDTIME:                            'ADDTIME';
+CONVERT_TZ:                         'CONVERT_TZ';
+CURDATE:                            'CURDATE';
+CURRENT_DATE:                       'CURRENT_DATE';
+CURRENT_TIME:                       'CURRENT_TIME';
+CURRENT_TIMESTAMP:                  'CURRENT_TIMESTAMP';
+CURTIME:                            'CURTIME';
 
 D:                                  'D';
 T:                                  'T';

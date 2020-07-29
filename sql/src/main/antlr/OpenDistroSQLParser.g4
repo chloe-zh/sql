@@ -180,7 +180,8 @@ trigonometricFunctionName
     ;
 
 dateTimeFunctionName
-    : DAYOFMONTH
+    : ADDDATE | ADDTIME | CONVERT_TZ | CURDATE | CURRENT_DATE | CURRENT_TIME | CURRENT_TIMESTAMP | CURDATE
+    | DAYOFMONTH
     ;
 
 functionArgs
