@@ -59,6 +59,10 @@ public enum BuiltinFunctionName {
   CURRENT_TIME(FunctionName.of("current_time")),
   CURRENT_TIMESTAMP(FunctionName.of("current_timestamp")),
   CURTIME(FunctionName.of("curtime")),
+  DATE(FunctionName.of("date")),
+  DATE_FORMAT(FunctionName.of("date_format")),
+  DATEDIFF(FunctionName.of("datediff")),
+  NOW(FunctionName.of("now")),
 
 
   /**

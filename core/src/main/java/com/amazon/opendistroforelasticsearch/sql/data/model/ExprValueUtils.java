@@ -15,14 +15,10 @@
 
 package com.amazon.opendistroforelasticsearch.sql.data.model;
 
-import static com.amazon.opendistroforelasticsearch.sql.data.type.ExprCoreType.ARRAY;
-import static com.amazon.opendistroforelasticsearch.sql.data.type.ExprCoreType.BOOLEAN;
-import static com.amazon.opendistroforelasticsearch.sql.data.type.ExprCoreType.STRING;
-import static com.amazon.opendistroforelasticsearch.sql.data.type.ExprCoreType.STRUCT;
-
 import com.amazon.opendistroforelasticsearch.sql.data.type.ExprCoreType;
 import com.amazon.opendistroforelasticsearch.sql.exception.ExpressionEvaluationException;
-import com.google.common.annotations.VisibleForTesting;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -171,5 +167,13 @@ public class ExprValueUtils {
    */
   public static ZonedDateTime getDateValue(ExprValue exprValue) {
     return exprValue.dateValue();
+  }
+
+  public static LocalTime getTimeValue(ExprValue exprValue) {
+    return exprValue.timeValue();
+  }
+
+  public static ZonedDateTime getDatetimeValue(ExprValue exprValue) {
+    return exprValue.datetimeValue();
   }
 }
