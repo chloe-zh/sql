@@ -53,6 +53,10 @@ public class ExprDateValue extends AbstractExprValue {
     }
   }
 
+  public ExprDateValue(LocalDate date) {
+    this.date = date.atStartOfDay(ZONE).toInstant();
+  }
+
   @Override
   public String value() {
     return DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZONE).format(date);

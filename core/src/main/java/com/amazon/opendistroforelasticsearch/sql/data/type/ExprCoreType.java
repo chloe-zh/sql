@@ -55,9 +55,9 @@ public enum ExprCoreType implements ExprType {
    * Todo. compatible relationship.
    */
   TIMESTAMP,
-  DATETIME(TIMESTAMP),
-  DATE(DATETIME),
-  TIME(DATETIME),
+  DATETIME,
+  DATE,
+  TIME,
 
   /**
    * Struct.

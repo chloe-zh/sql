@@ -47,6 +47,10 @@ public class ExprDatetimeValue extends AbstractExprValue {
     }
   }
 
+  public ExprDatetimeValue(LocalDateTime dateTime) {
+    this.dateTime = dateTime;
+  }
+
   @Override
   public ZonedDateTime datetimeValue() {
     return dateTime.atZone(ZONE);
