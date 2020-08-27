@@ -17,13 +17,14 @@
 package com.amazon.opendistroforelasticsearch.sql.sql.parser;
 
 import static com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser.FromClauseContext;
+import static com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser.QuerySpecificationContext;
 import static com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser.SelectClauseContext;
 import static com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser.SelectElementContext;
-import static com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser.SimpleSelectContext;
 import static com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser.WhereClauseContext;
 
 import com.amazon.opendistroforelasticsearch.sql.ast.expression.Alias;
 import com.amazon.opendistroforelasticsearch.sql.ast.expression.AllFields;
+import com.amazon.opendistroforelasticsearch.sql.ast.expression.QualifiedName;
 import com.amazon.opendistroforelasticsearch.sql.ast.expression.UnresolvedExpression;
 import com.amazon.opendistroforelasticsearch.sql.ast.tree.Filter;
 import com.amazon.opendistroforelasticsearch.sql.ast.tree.Project;
@@ -32,7 +33,6 @@ import com.amazon.opendistroforelasticsearch.sql.ast.tree.UnresolvedPlan;
 import com.amazon.opendistroforelasticsearch.sql.ast.tree.Values;
 import com.amazon.opendistroforelasticsearch.sql.common.antlr.SyntaxCheckException;
 import com.amazon.opendistroforelasticsearch.sql.common.utils.StringUtils;
-import com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser.QuerySpecificationContext;
 import com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParserBaseVisitor;
 import com.google.common.collect.ImmutableList;
 import java.util.Collections;
@@ -57,11 +57,10 @@ public class AstBuilder extends OpenDistroSQLParserBaseVisitor<UnresolvedPlan> {
   private final String query;
 
   @Override
-  public UnresolvedPlan visitSimpleSelect(SimpleSelectContext ctx) {
-    QuerySpecificationContext query = ctx.querySpecification();
-    UnresolvedPlan project = visit(query.selectClause());
+  public UnresolvedPlan visitQuerySpecification(QuerySpecificationContext ctx) {
+    UnresolvedPlan project = visit(ctx.selectClause());
 
-    if (query.fromClause() == null) {
+    if (ctx.fromClause() == null) {
       Optional<UnresolvedExpression> allFields =
           ((Project) project).getProjectList().stream().filter(node -> node instanceof AllFields)
               .findFirst();
@@ -75,7 +74,7 @@ public class AstBuilder extends OpenDistroSQLParserBaseVisitor<UnresolvedPlan> {
       return project.attach(emptyValue);
     }
 
-    UnresolvedPlan relation = visit(query.fromClause());
+    UnresolvedPlan relation = visit(ctx.fromClause());
     return project.attach(relation);
   }
 
@@ -92,11 +91,20 @@ public class AstBuilder extends OpenDistroSQLParserBaseVisitor<UnresolvedPlan> {
 
   @Override
   public UnresolvedPlan visitFromClause(FromClauseContext ctx) {
-    UnresolvedExpression tableName = visitAstExpression(ctx.tableName());
+    UnresolvedExpression tableName;
+    Relation relation;
     String tableAlias = (ctx.alias() == null) ? null
         : StringUtils.unquoteIdentifier(ctx.alias().getText());
 
-    Relation relation = new Relation(tableName, tableAlias);
+    if (ctx.tableName() != null) {
+      tableName = visitAstExpression(ctx.tableName());
+      relation = new Relation(tableName, tableAlias);
+    } else {
+      tableName = QualifiedName.of("subquery");
+      relation = new Relation(tableName, tableAlias);
+      relation.attach(visitQuerySpecification(ctx.subquery));
+    }
+
     if (ctx.whereClause() != null) {
       return visit(ctx.whereClause()).attach(relation);
     }

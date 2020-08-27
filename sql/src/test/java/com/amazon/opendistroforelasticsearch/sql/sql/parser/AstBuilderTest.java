@@ -189,6 +189,24 @@ class AstBuilderTest {
     );
   }
 
+  @Test
+  public void can_build_from_subquery() {
+    assertEquals(
+        project(
+            relation(
+                "subquery",
+                project(
+                    relation("test"),
+                    alias("name", qualifiedName("name")),
+                    alias("age", qualifiedName("age"))
+                )
+            ),
+            alias("name", qualifiedName("name"))
+        ),
+        buildAST("SELECT name FROM (SELECT name, age FROM test)")
+    );
+  }
+
   private UnresolvedPlan buildAST(String query) {
     ParseTree parseTree = parser.parse(query);
     return parseTree.accept(new AstBuilder(query));

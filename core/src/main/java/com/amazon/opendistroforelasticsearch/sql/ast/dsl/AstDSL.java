@@ -68,6 +68,14 @@ public class AstDSL {
     return new Relation(qualifiedName(tableName), alias);
   }
 
+  public UnresolvedPlan relation(String tableName, UnresolvedPlan subquery) {
+    return new Relation(qualifiedName(tableName)).attach(subquery);
+  }
+
+  public UnresolvedPlan relation(String tableName, String alias, UnresolvedPlan subquery) {
+    return new Relation(qualifiedName(tableName), alias).attach(subquery);
+  }
+
   public static UnresolvedPlan project(UnresolvedPlan input, UnresolvedExpression... projectList) {
     return new Project(Arrays.asList(projectList)).attach(input);
   }

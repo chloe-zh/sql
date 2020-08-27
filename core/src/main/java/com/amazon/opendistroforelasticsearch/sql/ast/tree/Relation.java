@@ -40,6 +40,16 @@ public class Relation extends UnresolvedPlan {
   private String alias;
 
   /**
+   * Optional subquery in FROM clause as relation.
+   */
+  private UnresolvedPlan child = null;
+
+  public Relation(UnresolvedExpression tableName, String alias) {
+    this.tableName = tableName;
+    this.alias = alias;
+  }
+
+  /**
    * Get original table name. Unwrap and get name if table name expression
    * is actually an Alias.
    * @return    table name
@@ -58,7 +68,7 @@ public class Relation extends UnresolvedPlan {
 
   @Override
   public List<UnresolvedPlan> getChild() {
-    return ImmutableList.of();
+    return child != null ? ImmutableList.of(child) : ImmutableList.of();
   }
 
   @Override
@@ -68,6 +78,7 @@ public class Relation extends UnresolvedPlan {
 
   @Override
   public UnresolvedPlan attach(UnresolvedPlan child) {
+    this.child = child;
     return this;
   }
 }
