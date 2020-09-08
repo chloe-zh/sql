@@ -17,6 +17,7 @@ package com.amazon.opendistroforelasticsearch.sql.planner.logical;
 
 import com.google.common.collect.ImmutableList;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +29,18 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class LogicalRelation extends LogicalPlan {
+  private LogicalPlan child = null;
   @Getter
   private final String relationName;
 
   @Override
   public List<LogicalPlan> getChild() {
-    return ImmutableList.of();
+    if (child == null) {
+      return ImmutableList.of();
+    }
+    return ImmutableList.of(child);
   }
 
   @Override

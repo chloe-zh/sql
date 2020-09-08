@@ -106,7 +106,11 @@ public class Analyzer extends AbstractNodeVisitor<LogicalPlan, AnalysisContext> 
     // can be removed when analyzing qualified name. The value (expr type) here doesn't matter.
     curEnv.define(new Symbol(Namespace.INDEX_NAME, node.getTableNameOrAlias()), STRUCT);
 
-    return new LogicalRelation(node.getTableName());
+    // Relation might be an index, put the table name to the logical relation
+    // If the relation is a subquery, put the subquery as the index content to the logical relation
+    return node.getChild().isEmpty()
+        ? new LogicalRelation(node.getTableName())
+        : new LogicalRelation(node.getChild().get(0).accept(this, context), node.getTableName());
   }
 
   @Override
