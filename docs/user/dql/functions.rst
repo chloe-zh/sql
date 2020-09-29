@@ -1,4 +1,3 @@
-
 =============
 SQL Functions
 =============
@@ -7,7 +6,7 @@ SQL Functions
 
 .. contents::
    :local:
-   :depth: 1
+   :depth: 2
 
 Introduction
 ============
@@ -16,22 +15,38 @@ There is support for a wide variety of SQL functions. We are intend to generate 
 
 Most of the specifications can be self explained just as a regular function with data type as argument. The only notation that needs elaboration is generic type ``T`` which binds to an actual type and can be used as return type. For example, ``ABS(NUMBER T) -> T`` means function ``ABS`` accepts an numerical argument of type ``T`` which could be any sub-type of ``NUMBER`` type and returns the actual type of ``T`` as return type. The actual type binds to generic type at runtime dynamically.
 
-ABS
-===
+
+Type Conversion
+===============
+
+CAST
+----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specification is undefined and type check is skipped for now
+
+
+Mathematical Functions
+======================
+
+ABS
+---
+
+Description
+>>>>>>>>>>>
+
+Specifications:
 
 1. ABS(NUMBER T) -> T
 
 
 ACOS
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: acos(x) calculate the arc cosine of x. Returns NULL if x is not in the range -1 to 1.
 
@@ -51,32 +66,21 @@ Example::
 
 
 ADD
-===
+---
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. ADD(NUMBER T, NUMBER) -> T
 
 
-ASCII
-=====
-
-Description
------------
-
-Specifications: 
-
-1. ASCII(STRING T) -> INTEGER
-
-
 ASIN
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: asin(x) calculate the arc sine of x. Returns NULL if x is not in the range -1 to 1.
 
@@ -91,15 +95,15 @@ Example::
     +-----------+
     | ASIN(0)   |
     |-----------|
-    | 0         |
+    | 0.0       |
     +-----------+
 
 
 ATAN
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: atan(x) calculates the arc tangent of x. atan(y, x) calculates the arc tangent of y / x, except that the signs of both arguments are used to determine the quadrant of the result.
 
@@ -119,10 +123,10 @@ Example::
 
 
 ATAN2
-=====
+-----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: atan2(y, x) calculates the arc tangent of y / x, except that the signs of both arguments are used to determine the quadrant of the result.
 
@@ -141,58 +145,33 @@ Example::
     +--------------------+
 
 
-CAST
-====
-
-Description
------------
-
-Specification is undefined and type check is skipped for now
-
 CBRT
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. CBRT(NUMBER T) -> T
 
 
 CEIL
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. CEIL(NUMBER T) -> T
 
 
-CONCAT
-======
-
-Description
------------
-
-Specification is undefined and type check is skipped for now
-
-CONCAT_WS
-=========
-
-Description
------------
-
-Specification is undefined and type check is skipped for now
-
-
 CONV
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: CONV(x, a, b) converts the number x from a base to b base.
 
@@ -211,10 +190,10 @@ Example::
     +----------------------+----------------------+-------------------+---------------------+
 
 COS
-===
+---
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: cos(x) calculate the cosine of x, where x is given in radians.
 
@@ -229,26 +208,26 @@ Example::
     +----------+
     | COS(0)   |
     |----------|
-    | 1        |
+    | 1.0      |
     +----------+
 
 
 COSH
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. COSH(NUMBER T) -> DOUBLE
 
 
 COT
-===
+---
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: cot(x) calculate the cotangent of x. Returns out-of-range error if x equals to 0.
 
@@ -268,10 +247,10 @@ Example::
 
 
 CRC32
-=====
+-----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: Calculates a cyclic redundancy check value and returns a 32-bit unsigned value.
 
@@ -290,56 +269,11 @@ Example::
     +------------------+
 
 
-CURDATE
-=======
-
-Description
------------
-
-Specifications: 
-
-1. CURDATE() -> DATE
-
-
-DATE
-====
-
-Description
------------
-
-Specifications: 
-
-1. DATE(DATE) -> DATE
-
-
-DATE_FORMAT
-===========
-
-Description
------------
-
-Specifications: 
-
-1. DATE_FORMAT(DATE, STRING) -> STRING
-2. DATE_FORMAT(DATE, STRING, STRING) -> STRING
-
-
-DAYOFMONTH
-==========
-
-Description
------------
-
-Specifications: 
-
-1. DAYOFMONTH(DATE) -> INTEGER
-
-
 DEGREES
-=======
+-------
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: degrees(x) converts x from radians to degrees.
 
@@ -359,21 +293,21 @@ Example::
 
 
 DIVIDE
-======
+------
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. DIVIDE(NUMBER T, NUMBER) -> T
 
 
 E
-=
+-
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: E() returns the Euler's number
 
@@ -391,189 +325,88 @@ Example::
 
 
 EXP
-===
+---
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. EXP(NUMBER T) -> T
 
 
 EXPM1
-=====
+-----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. EXPM1(NUMBER T) -> T
 
 
 FLOOR
-=====
+-----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. FLOOR(NUMBER T) -> T
 
 
-IF
-==
-
-Description
------------
-
-Specifications: 
-
-1. IF(BOOLEAN, ES_TYPE, ES_TYPE) -> ES_TYPE
-
-
-IFNULL
-======
-
-Description
------------
-
-Specifications: 
-
-1. IFNULL(ES_TYPE, ES_TYPE) -> ES_TYPE
-
-
-ISNULL
-======
-
-Description
------------
-
-Specifications: 
-
-1. ISNULL(ES_TYPE) -> INTEGER
-
-
-LEFT
-====
-
-Description
------------
-
-Specifications: 
-
-1. LEFT(STRING T, INTEGER) -> T
-
-
-LENGTH
-======
-
-Description
------------
-
-Specifications: 
-
-1. LENGTH(STRING) -> INTEGER
-
-
 LN
-==
+--
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. LN(NUMBER T) -> DOUBLE
 
 
-LOCATE
-======
-
-Description
------------
-
-Specifications: 
-
-1. LOCATE(STRING, STRING, INTEGER) -> INTEGER
-2. LOCATE(STRING, STRING) -> INTEGER
-
-
 LOG
-===
+---
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. LOG(NUMBER T) -> DOUBLE
 2. LOG(NUMBER T, NUMBER) -> DOUBLE
 
 
 LOG2
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. LOG2(NUMBER T) -> DOUBLE
 
 
 LOG10
-=====
+-----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. LOG10(NUMBER T) -> DOUBLE
 
 
-LOWER
-=====
-
-Description
------------
-
-Specifications: 
-
-1. LOWER(STRING T) -> T
-2. LOWER(STRING T, STRING) -> T
-
-
-LTRIM
-=====
-
-Description
------------
-
-Specifications: 
-
-1. LTRIM(STRING T) -> T
-
-
-MAKETIME
-========
-
-Description
------------
-
-Specifications: 
-
-1. MAKETIME(INTEGER, INTEGER, INTEGER) -> DATE
-
-
 MOD
-=======
+---
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: MOD(n, m) calculates the remainder of the number n divided by m.
 
@@ -592,55 +425,21 @@ Example::
     +-------------+---------------+
 
 
-MONTH
-=====
-
-Description
------------
-
-Specifications: 
-
-1. MONTH(DATE) -> INTEGER
-
-
-MONTHNAME
-=========
-
-Description
------------
-
-Specifications: 
-
-1. MONTHNAME(DATE) -> STRING
-
-
 MULTIPLY
-========
+--------
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. MULTIPLY(NUMBER T, NUMBER) -> NUMBER
 
-
-NOW
-===
-
-Description
------------
-
-Specifications: 
-
-1. NOW() -> DATE
-
-
 PI
-==
+--
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: PI() returns the constant pi
 
@@ -658,16 +457,18 @@ Example::
 
 
 POW
-===
+---
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: POW(x, y) calculates the value of x raised to the power of y. Bad inputs return NULL result.
 
 Argument type: INTEGER/LONG/FLOAT/DOUBLE
 
 Return type: DOUBLE
+
+Synonyms: `POWER`_
 
 Example::
 
@@ -676,21 +477,23 @@ Example::
     +-------------+--------------+--------------------+
     | POW(3, 2)   | POW(-3, 2)   | POW(3, -2)         |
     |-------------+--------------+--------------------|
-    | 9           | 9            | 0.1111111111111111 |
+    | 9.0         | 9.0          | 0.1111111111111111 |
     +-------------+--------------+--------------------+
 
 
 POWER
-=====
+-----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: POWER(x, y) calculates the value of x raised to the power of y. Bad inputs return NULL result.
 
 Argument type: INTEGER/LONG/FLOAT/DOUBLE
 
 Return type: DOUBLE
+
+Synonyms: `POW`_
 
 Example::
 
@@ -699,15 +502,15 @@ Example::
     +---------------+----------------+--------------------+
     | POWER(3, 2)   | POWER(-3, 2)   | POWER(3, -2)       |
     |---------------+----------------+--------------------|
-    | 9             | 9              | 0.1111111111111111 |
+    | 9.0           | 9.0            | 0.1111111111111111 |
     +---------------+----------------+--------------------+
 
 
 RADIANS
-=======
+-------
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: radians(x) converts x from degrees to radians.
 
@@ -727,10 +530,10 @@ Example::
 
 
 RAND
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: RAND()/RAND(N) returns a random floating-point value in the range 0 <= value < 1.0. If integer N is specified, the seed is initialized prior to execution. One implication of this behavior is with identical argument N, rand(N) returns the same value each time, and thus produces a repeatable sequence of column values.
 
@@ -749,44 +552,22 @@ Example::
     +------------+
 
 
-REPLACE
-=======
-
-Description
------------
-
-Specifications: 
-
-1. REPLACE(STRING T, STRING, STRING) -> T
-
-
-RIGHT
-=====
-
-Description
------------
-
-Specifications: 
-
-1. RIGHT(STRING T, INTEGER) -> T
-
-
 RINT
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. RINT(NUMBER T) -> T
 
 
 ROUND
-=====
+-----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: ROUND(x, d) rounds the argument x to d decimal places, d defaults to 0 if not specified
 
@@ -804,26 +585,15 @@ Example::
     +----------------+-------------------+--------------------+----------------+
     | ROUND(12.34)   | ROUND(12.34, 1)   | ROUND(12.34, -1)   | ROUND(12, 1)   |
     |----------------+-------------------+--------------------+----------------|
-    | 12             | 12.3              | 10                 | 12             |
+    | 12.0           | 12.3              | 10.0               | 12             |
     +----------------+-------------------+--------------------+----------------+
 
 
-RTRIM
-=====
-
-Description
------------
-
-Specifications: 
-
-1. RTRIM(STRING T) -> T
-
-
 SIGN
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: Returns the sign of the argument as -1, 0, or 1, depending on whether the number is negative, zero, or positive
 
@@ -843,21 +613,21 @@ Example::
 
 
 SIGNUM
-======
+------
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. SIGNUM(NUMBER T) -> T
 
 
 SIN
-===
+---
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: sin(x) calculate the sine of x, where x is given in radians.
 
@@ -872,26 +642,26 @@ Example::
     +----------+
     | SIN(0)   |
     |----------|
-    | 0        |
+    | 0.0      |
     +----------+
 
 
 SINH
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. SINH(NUMBER T) -> DOUBLE
 
 
 SQRT
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: Calculates the square root of a non-negative number
 
@@ -909,37 +679,50 @@ Example::
     +-----------+--------------+
     | SQRT(4)   | SQRT(4.41)   |
     |-----------+--------------|
-    | 2         | 2.1          |
+    | 2.0       | 2.1          |
     +-----------+--------------+
 
 
-SUBSTRING
-=========
+STRCMP
+------
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Usage: strcmp(str1, str2) returns 0 if strings are same, -1 if first arg < second arg according to current sort order, and 1 otherwise.
 
-1. SUBSTRING(STRING T, INTEGER, INTEGER) -> T
+Argument type: STRING, STRING
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT STRCMP('hello', 'world'), STRCMP('hello', 'hello')
+    fetched rows / total rows = 1/1
+    +----------------------------+----------------------------+
+    | STRCMP('hello', 'world')   | STRCMP('hello', 'hello')   |
+    |----------------------------+----------------------------|
+    | -1                         | 0                          |
+    +----------------------------+----------------------------+
+
 
 
 SUBTRACT
-========
+--------
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Specifications:
 
 1. SUBTRACT(NUMBER T, NUMBER) -> T
 
 
 TAN
-===
+---
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: tan(x) calculate the tangent of x, where x is given in radians.
 
@@ -954,37 +737,15 @@ Example::
     +----------+
     | TAN(0)   |
     |----------|
-    | 0        |
+    | 0.0      |
     +----------+
 
 
-TIMESTAMP
-=========
-
-Description
------------
-
-Specifications: 
-
-1. TIMESTAMP(DATE) -> DATE
-
-
-TRIM
-====
-
-Description
------------
-
-Specifications: 
-
-1. TRIM(STRING T) -> T
-
-
 TRUNCATE
-========
+--------
 
 Description
------------
+>>>>>>>>>>>
 
 Usage: TRUNCATE(x, d) returns the number x, truncated to d decimal place
 
@@ -1005,26 +766,921 @@ Example::
     +----------------------+-----------------------+-------------------+
 
 
-UPPER
-=====
+
+Date and Time Functions
+=======================
+
+ADDDATE
+-------
 
 Description
+>>>>>>>>>>>
+
+Usage: adddate(date, INTERVAL expr unit)/ adddate(date, expr) adds the time interval of second argument to date; adddate(date, days) adds the second argument as integer number of days to date.
+
+Argument type: DATE/DATETIME/TIMESTAMP/STRING, INTERVAL/LONG
+
+Return type map:
+
+(DATE/DATETIME/TIMESTAMP/STRING, INTERVAL) -> DATETIME
+
+(DATE, LONG) -> DATE
+
+(DATETIME/TIMESTAMP/STRING, LONG) -> DATETIME
+
+Synonyms: `DATE_ADD`_
+
+Example::
+
+    od> SELECT ADDDATE(DATE('2020-08-26'), INTERVAL 1 HOUR), ADDDATE(DATE('2020-08-26'), 1), ADDDATE(TIMESTAMP('2020-08-26 01:01:01'), 1)
+    fetched rows / total rows = 1/1
+    +------------------------------------------------+----------------------------------+------------------------------------------------+
+    | ADDDATE(DATE('2020-08-26'), INTERVAL 1 HOUR)   | ADDDATE(DATE('2020-08-26'), 1)   | ADDDATE(TIMESTAMP('2020-08-26 01:01:01'), 1)   |
+    |------------------------------------------------+----------------------------------+------------------------------------------------|
+    | 2020-08-26 01:00:00                            | 2020-08-27                       | 2020-08-27 01:01:01                            |
+    +------------------------------------------------+----------------------------------+------------------------------------------------+
+
+
+CURDATE
+-------
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. CURDATE() -> DATE
+
+
+DATE
+----
+
+Description
+>>>>>>>>>>>
+
+Usage: date(expr) constructs a date type with the input string expr as a date. If the argument is of date/datetime/timestamp, it extracts the date value part from the expression.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: DATE
+
+Example::
+
+    >od SELECT DATE('2020-08-26'), DATE(TIMESTAMP('2020-08-26 13:49:00'))
+    fetched rows / total rows = 1/1
+    +----------------------+------------------------------------------+
+    | DATE('2020-08-26')   | DATE(TIMESTAMP('2020-08-26 13:49:00'))   |
+    |----------------------+------------------------------------------|
+    | DATE '2020-08-26'    | DATE '2020-08-26'                        |
+    +----------------------+------------------------------------------+
+
+
+DATE_FORMAT
 -----------
+
+Description
+>>>>>>>>>>>
 
 Specifications: 
 
-1. UPPER(STRING T) -> T
-2. UPPER(STRING T, STRING) -> T
+1. DATE_FORMAT(DATE, STRING) -> STRING
+2. DATE_FORMAT(DATE, STRING, STRING) -> STRING
+
+DATE_ADD
+--------
+
+Description
+>>>>>>>>>>>
+
+Usage: date_add(date, INTERVAL expr unit)/ date_add(date, expr) adds the time interval expr to date
+
+Argument type: DATE/DATETIME/TIMESTAMP/STRING, INTERVAL/LONG
+
+Return type map:
+
+DATE/DATETIME/TIMESTAMP/STRING, INTERVAL -> DATETIME
+
+DATE, LONG -> DATE
+
+DATETIME/TIMESTAMP/STRING, LONG -> DATETIME
+
+Synonyms: `ADDDATE`_
+
+Example::
+
+    od> SELECT DATE_ADD(DATE('2020-08-26'), INTERVAL 1 HOUR), DATE_ADD(DATE('2020-08-26'), 1), DATE_ADD(TIMESTAMP('2020-08-26 01:01:01'), 1)
+    fetched rows / total rows = 1/1
+    +-------------------------------------------------+-----------------------------------+-------------------------------------------------+
+    | DATE_ADD(DATE('2020-08-26'), INTERVAL 1 HOUR)   | DATE_ADD(DATE('2020-08-26'), 1)   | DATE_ADD(TIMESTAMP('2020-08-26 01:01:01'), 1)   |
+    |-------------------------------------------------+-----------------------------------+-------------------------------------------------|
+    | 2020-08-26 01:00:00                             | 2020-08-27                        | 2020-08-27 01:01:01                             |
+    +-------------------------------------------------+-----------------------------------+-------------------------------------------------+
+
+
+DATE_SUB
+--------
+
+Description
+>>>>>>>>>>>
+
+Usage: date_sub(date, INTERVAL expr unit)/ date_sub(date, expr) subtracts the time interval expr from date
+
+Argument type: DATE/DATETIME/TIMESTAMP/STRING, INTERVAL/LONG
+
+Return type map:
+
+DATE/DATETIME/TIMESTAMP/STRING, INTERVAL -> DATETIME
+
+DATE, LONG -> DATE
+
+DATETIME/TIMESTAMP/STRING, LONG -> DATETIME
+
+Synonyms: `SUBDATE`_
+
+Example::
+
+    od> SELECT DATE_SUB(DATE('2008-01-02'), INTERVAL 31 DAY), DATE_SUB(DATE('2020-08-26'), 1), DATE_SUB(TIMESTAMP('2020-08-26 01:01:01'), 1)
+    fetched rows / total rows = 1/1
+    +-------------------------------------------------+-----------------------------------+-------------------------------------------------+
+    | DATE_SUB(DATE('2008-01-02'), INTERVAL 31 DAY)   | DATE_SUB(DATE('2020-08-26'), 1)   | DATE_SUB(TIMESTAMP('2020-08-26 01:01:01'), 1)   |
+    |-------------------------------------------------+-----------------------------------+-------------------------------------------------|
+    | 2007-12-02                                      | 2020-08-25                        | 2020-08-25 01:01:01                             |
+    +-------------------------------------------------+-----------------------------------+-------------------------------------------------+
+
+
+DAY
+---
+
+Description
+>>>>>>>>>>>
+
+Usage: day(date) extracts the day of the month for date, in the range 1 to 31. The dates with value 0 such as '0000-00-00' or '2008-00-00' are invalid.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Synonyms: DAYOFMONTH
+
+Example::
+
+    od> SELECT DAY(DATE('2020-08-26'))
+    fetched rows / total rows = 1/1
+    +---------------------------+
+    | DAY(DATE('2020-08-26'))   |
+    |---------------------------|
+    | 26                        |
+    +---------------------------+
+
+
+DAYNAME
+-------
+
+Description
+>>>>>>>>>>>
+
+Usage: dayname(date) returns the name of the weekday for date, including Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: STRING
+
+Example::
+
+    od> SELECT DAYNAME(DATE('2020-08-26'))
+    fetched rows / total rows = 1/1
+    +-------------------------------+
+    | DAYNAME(DATE('2020-08-26'))   |
+    |-------------------------------|
+    | Wednesday                     |
+    +-------------------------------+
+
+
+DAYOFMONTH
+----------
+
+Description
+>>>>>>>>>>>
+
+Usage: dayofmonth(date) extracts the day of the month for date, in the range 1 to 31. The dates with value 0 such as '0000-00-00' or '2008-00-00' are invalid.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Synonyms: DAY
+
+Example::
+
+    od> SELECT DAYOFMONTH(DATE('2020-08-26'))
+    fetched rows / total rows = 1/1
+    +----------------------------------+
+    | DAYOFMONTH(DATE('2020-08-26'))   |
+    |----------------------------------|
+    | 26                               |
+    +----------------------------------+
+
+
+DAYOFWEEK
+---------
+
+Description
+>>>>>>>>>>>
+
+Usage: dayofweek(date) returns the weekday index for date (1 = Sunday, 2 = Monday, …, 7 = Saturday).
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT DAYOFWEEK(DATE('2020-08-26'))
+    fetched rows / total rows = 1/1
+    +---------------------------------+
+    | DAYOFWEEK(DATE('2020-08-26'))   |
+    |---------------------------------|
+    | 4                               |
+    +---------------------------------+
+
+
+
+DAYOFYEAR
+---------
+
+Description
+>>>>>>>>>>>
+
+Usage:  dayofyear(date) returns the day of the year for date, in the range 1 to 366.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT DAYOFYEAR(DATE('2020-08-26'))
+    fetched rows / total rows = 1/1
+    +---------------------------------+
+    | DAYOFYEAR(DATE('2020-08-26'))   |
+    |---------------------------------|
+    | 239                             |
+    +---------------------------------+
+
+
+FROM_DAYS
+---------
+
+Description
+>>>>>>>>>>>
+
+Usage: from_days(N) returns the date value given the day number N.
+
+Argument type: INTEGER/LONG
+
+Return type: DATE
+
+Example::
+
+    od> SELECT FROM_DAYS(733687)
+    fetched rows / total rows = 1/1
+    +---------------------+
+    | FROM_DAYS(733687)   |
+    |---------------------|
+    | 2008-10-07          |
+    +---------------------+
+
+
+HOUR
+----
+
+Description
+>>>>>>>>>>>
+
+Usage: hour(time) extracts the hour value for time. Different from the time of day value, the time value has a large range and can be greater than 23, so the return value of hour(time) can be also greater than 23.
+
+Argument type: STRING/TIME/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT HOUR((TIME '01:02:03'))
+    fetched rows / total rows = 1/1
+    +---------------------------+
+    | HOUR((TIME '01:02:03'))   |
+    |---------------------------|
+    | 1                         |
+    +---------------------------+
+
+
+MAKETIME
+--------
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. MAKETIME(INTEGER, INTEGER, INTEGER) -> DATE
+
+
+MICROSECOND
+-----------
+
+Description
+>>>>>>>>>>>
+
+Usage: microsecond(expr) returns the microseconds from the time or datetime expression expr as a number in the range from 0 to 999999.
+
+Argument type: STRING/TIME/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT MICROSECOND((TIME '01:02:03.123456'))
+    fetched rows / total rows = 1/1
+    +-----------------------------------------+
+    | MICROSECOND((TIME '01:02:03.123456'))   |
+    |-----------------------------------------|
+    | 123456                                  |
+    +-----------------------------------------+
+
+
+MINUTE
+------
+
+Description
+>>>>>>>>>>>
+
+Usage: minute(time) returns the minute for time, in the range 0 to 59.
+
+Argument type: STRING/TIME/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT MINUTE((TIME '01:02:03'))
+    fetched rows / total rows = 1/1
+    +-----------------------------+
+    | MINUTE((TIME '01:02:03'))   |
+    |-----------------------------|
+    | 2                           |
+    +-----------------------------+
+
+
+MONTH
+-----
+
+Description
+>>>>>>>>>>>
+
+Usage: month(date) returns the month for date, in the range 1 to 12 for January to December. The dates with value 0 such as '0000-00-00' or '2008-00-00' are invalid.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT MONTH(DATE('2020-08-26'))
+    fetched rows / total rows = 1/1
+    +-----------------------------+
+    | MONTH(DATE('2020-08-26'))   |
+    |-----------------------------|
+    | 8                           |
+    +-----------------------------+
+
+
+MONTHNAME
+---------
+
+Description
+>>>>>>>>>>>
+
+Usage: monthname(date) returns the full name of the month for date.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: STRING
+
+Example::
+
+    od> SELECT MONTHNAME(DATE('2020-08-26'))
+    fetched rows / total rows = 1/1
+    +---------------------------------+
+    | MONTHNAME(DATE('2020-08-26'))   |
+    |---------------------------------|
+    | August                          |
+    +---------------------------------+
+
+
+NOW
+---
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. NOW() -> DATE
+
+
+QUARTER
+-------
+
+Description
+>>>>>>>>>>>
+
+Usage: quarter(date) returns the quarter of the year for date, in the range 1 to 4.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT QUARTER(DATE('2020-08-26'))
+    fetched rows / total rows = 1/1
+    +-------------------------------+
+    | QUARTER(DATE('2020-08-26'))   |
+    |-------------------------------|
+    | 3                             |
+    +-------------------------------+
+
+
+SECOND
+------
+
+Description
+>>>>>>>>>>>
+
+Usage: second(time) returns the second for time, in the range 0 to 59.
+
+Argument type: STRING/TIME/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT SECOND((TIME '01:02:03'))
+    fetched rows / total rows = 1/1
+    +-----------------------------+
+    | SECOND((TIME '01:02:03'))   |
+    |-----------------------------|
+    | 3                           |
+    +-----------------------------+
+
+
+SUBDATE
+-------
+
+Description
+>>>>>>>>>>>
+
+Usage: subdate(date, INTERVAL expr unit)/ subdate(date, expr) subtracts the time interval expr from date
+
+Argument type: DATE/DATETIME/TIMESTAMP/STRING, INTERVAL/LONG
+
+Return type map:
+
+DATE/DATETIME/TIMESTAMP/STRING, INTERVAL -> DATETIME
+
+DATE, LONG -> DATE
+
+DATETIME/TIMESTAMP/STRING, LONG -> DATETIME
+
+Synonyms: `DATE_SUB`_
+
+Example::
+
+    od> SELECT SUBDATE(DATE('2008-01-02'), INTERVAL 31 DAY), SUBDATE(DATE('2020-08-26'), 1), SUBDATE(TIMESTAMP('2020-08-26 01:01:01'), 1)
+    fetched rows / total rows = 1/1
+    +------------------------------------------------+----------------------------------+------------------------------------------------+
+    | SUBDATE(DATE('2008-01-02'), INTERVAL 31 DAY)   | SUBDATE(DATE('2020-08-26'), 1)   | SUBDATE(TIMESTAMP('2020-08-26 01:01:01'), 1)   |
+    |------------------------------------------------+----------------------------------+------------------------------------------------|
+    | 2007-12-02                                     | 2020-08-25                       | 2020-08-25 01:01:01                            |
+    +------------------------------------------------+----------------------------------+------------------------------------------------+
+
+
+TIME
+----
+
+Description
+>>>>>>>>>>>
+
+Usage: time(expr) constructs a time type with the input string expr as a time. If the argument is of date/datetime/time/timestamp, it extracts the time value part from the expression.
+
+Argument type: STRING/DATE/DATETIME/TIME/TIMESTAMP
+
+Return type: TIME
+
+Example::
+
+    >od SELECT TIME('13:49:00'), TIME(TIMESTAMP('2020-08-26 13:49:00'))
+    fetched rows / total rows = 1/1
+    +--------------------+------------------------------------------+
+    | TIME('13:49:00')   | TIME(TIMESTAMP('2020-08-26 13:49:00'))   |
+    |--------------------+------------------------------------------|
+    | TIME '13:49:00'    | TIME '13:49:00'                          |
+    +--------------------+------------------------------------------+
+
+
+TIME_TO_SEC
+-----------
+
+Description
+>>>>>>>>>>>
+
+Usage: time_to_sec(time) returns the time argument, converted to seconds.
+
+Argument type: STRING/TIME/DATETIME/TIMESTAMP
+
+Return type: LONG
+
+Example::
+
+    od> SELECT TIME_TO_SEC(TIME '22:23:00')
+    fetched rows / total rows = 1/1
+    +--------------------------------+
+    | TIME_TO_SEC(TIME '22:23:00')   |
+    |--------------------------------|
+    | 80580                          |
+    +--------------------------------+
+
+
+TIMESTAMP
+---------
+
+Description
+>>>>>>>>>>>
+
+Usage: timestamp(expr) construct a timestamp type with the input string expr as an timestamp. If the argument is of date/datetime/timestamp type, cast expr to timestamp type with default timezone UTC.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: TIMESTAMP
+
+Example::
+
+    >od SELECT TIMESTAMP('2020-08-26 13:49:00')
+    fetched rows / total rows = 1/1
+    +------------------------------------+
+    | TIMESTAMP('2020-08-26 13:49:00')   |
+    |------------------------------------|
+    | TIMESTAMP '2020-08-26 13:49:00     |
+    +------------------------------------+
+
+
+TO_DAYS
+-------
+
+Description
+>>>>>>>>>>>
+
+Usage: to_days(date) returns the day number (the number of days since year 0) of the given date. Returns NULL if date is invalid.
+
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: LONG
+
+Example::
+
+    od> SELECT TO_DAYS(DATE '2008-10-07')
+    fetched rows / total rows = 1/1
+    +------------------------------+
+    | TO_DAYS(DATE '2008-10-07')   |
+    |------------------------------|
+    | 733687                       |
+    +------------------------------+
+
 
 
 YEAR
-====
+----
 
 Description
------------
+>>>>>>>>>>>
 
-Specifications: 
+Usage: year(date) returns the year for date, in the range 1000 to 9999, or 0 for the “zero” date.
 
-1. YEAR(DATE) -> INTEGER
+Argument type: STRING/DATE/DATETIME/TIMESTAMP
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT YEAR(DATE('2020-08-26'))
+    fetched rows / total rows = 1/1
+    +----------------------------+
+    | YEAR(DATE('2020-08-26'))   |
+    |----------------------------|
+    | 2020                       |
+    +----------------------------+
 
 
+String Functions
+================
+
+ASCII
+-----
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. ASCII(STRING T) -> INTEGER
+
+
+CONCAT
+------
+
+Description
+>>>>>>>>>>>
+
+Usage: CONCAT(str1, str2) returns str1 and str strings concatenated together.
+
+Argument type: STRING, STRING
+
+Return type: STRING
+
+Example::
+
+    od> SELECT CONCAT('hello', 'world')
+    fetched rows / total rows = 1/1
+    +----------------------------+
+    | CONCAT('hello', 'world')   |
+    |----------------------------|
+    | helloworld                 |
+    +----------------------------+
+
+
+CONCAT_WS
+---------
+
+Description
+>>>>>>>>>>>
+
+Usage: CONCAT_WS(sep, str1, str2) returns str1 concatenated with str2 using sep as a separator between them.
+
+Argument type: STRING, STRING, STRING
+
+Return type: STRING
+
+Example::
+
+    od> SELECT CONCAT_WS(',', 'hello', 'world')
+    fetched rows / total rows = 1/1
+    +------------------------------------+
+    | CONCAT_WS(',', 'hello', 'world')   |
+    |------------------------------------|
+    | hello,world                        |
+    +------------------------------------+
+
+
+LEFT
+----
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. LEFT(STRING T, INTEGER) -> T
+
+
+LENGTH
+------
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. LENGTH(STRING) -> INTEGER
+
+Usage: length(str) returns length of string measured in bytes.
+
+Argument type: STRING
+
+Return type: INTEGER
+
+Example::
+
+    od> SELECT LENGTH('helloworld')
+    fetched rows / total rows = 1/1
+    +------------------------+
+    | LENGTH('helloworld')   |
+    |------------------------|
+    | 10                     |
+    +------------------------+
+
+
+LOCATE
+------
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. LOCATE(STRING, STRING, INTEGER) -> INTEGER
+2. LOCATE(STRING, STRING) -> INTEGER
+
+
+LOWER
+-----
+
+Description
+>>>>>>>>>>>
+
+Usage: lower(string) converts the string to lowercase.
+
+Argument type: STRING
+
+Return type: STRING
+
+Example::
+
+    od> SELECT LOWER('helloworld'), LOWER('HELLOWORLD')
+    fetched rows / total rows = 1/1
+    +-----------------------+-----------------------+
+    | LOWER('helloworld')   | LOWER('HELLOWORLD')   |
+    |-----------------------+-----------------------|
+    | helloworld            | helloworld            |
+    +-----------------------+-----------------------+
+
+
+LTRIM
+-----
+
+Description
+>>>>>>>>>>>
+
+Usage: ltrim(str) trims leading space characters from the string.
+
+Argument type: STRING
+
+Return type: STRING
+
+Example::
+
+    od> SELECT LTRIM('   hello'), LTRIM('hello   ')
+    fetched rows / total rows = 1/1
+    +---------------------+---------------------+
+    | LTRIM('   hello')   | LTRIM('hello   ')   |
+    |---------------------+---------------------|
+    | hello               | hello               |
+    +---------------------+---------------------+
+
+
+REPLACE
+-------
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. REPLACE(STRING T, STRING, STRING) -> T
+
+
+RIGHT
+-----
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. RIGHT(STRING T, INTEGER) -> T
+
+
+RTRIM
+-----
+
+Description
+>>>>>>>>>>>
+
+Usage: rtrim(str) trims trailing space characters from the string.
+
+Argument type: STRING
+
+Return type: STRING
+
+Example::
+
+    od> SELECT RTRIM('   hello'), RTRIM('hello   ')
+    fetched rows / total rows = 1/1
+    +---------------------+---------------------+
+    | RTRIM('   hello')   | RTRIM('hello   ')   |
+    |---------------------+---------------------|
+    |    hello            | hello               |
+    +---------------------+---------------------+
+
+
+SUBSTRING
+---------
+
+Description
+>>>>>>>>>>>
+
+Usage: substring(str, start) or substring(str, start, length) returns substring using start and length. With no length, entire string from start is returned.
+
+Argument type: STRING, INTEGER, INTEGER
+
+Return type: STRING
+
+Synonyms: SUBSTR
+
+Example::
+
+    od> SELECT SUBSTRING('helloworld', 5), SUBSTRING('helloworld', 5, 3)
+    fetched rows / total rows = 1/1
+    +------------------------------+---------------------------------+
+    | SUBSTRING('helloworld', 5)   | SUBSTRING('helloworld', 5, 3)   |
+    |------------------------------+---------------------------------|
+    | oworld                       | owo                             |
+    +------------------------------+---------------------------------+
+
+
+TRIM
+----
+
+Description
+>>>>>>>>>>>
+
+Argument Type: STRING
+
+Return type: STRING
+
+Example::
+
+    od> SELECT TRIM('   hello'), TRIM('hello   ')
+    fetched rows / total rows = 1/1
+    +--------------------+--------------------+
+    | TRIM('   hello')   | TRIM('hello   ')   |
+    |--------------------+--------------------|
+    | hello              | hello              |
+    +--------------------+--------------------+
+
+
+UPPER
+-----
+
+Description
+>>>>>>>>>>>
+
+Usage: upper(string) converts the string to uppercase.
+
+Argument type: STRING
+
+Return type: STRING
+
+Example::
+
+    od> SELECT UPPER('helloworld'), UPPER('HELLOWORLD')
+    fetched rows / total rows = 1/1
+    +-----------------------+-----------------------+
+    | UPPER('helloworld')   | UPPER('HELLOWORLD')   |
+    |-----------------------+-----------------------|
+    | HELLOWORLD            | HELLOWORLD            |
+    +-----------------------+-----------------------+
+
+Conditional Functions
+=====================
+
+IF
+--
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. IF(BOOLEAN, ES_TYPE, ES_TYPE) -> ES_TYPE
+
+
+IFNULL
+------
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. IFNULL(ES_TYPE, ES_TYPE) -> ES_TYPE
+
+
+ISNULL
+------
+
+Description
+>>>>>>>>>>>
+
+Specifications:
+
+1. ISNULL(ES_TYPE) -> INTEGER

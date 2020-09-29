@@ -78,10 +78,23 @@ selectElement
 fromClause
     : FROM (tableName | (LR_BRACKET subquery=querySpecification RR_BRACKET )) (AS? alias)?
       (whereClause)?
+      (groupByClause)?
     ;
 
 whereClause
     : WHERE expression
+    ;
+
+groupByClause
+    : GROUP BY groupByElements
+    ;
+
+groupByElements
+    : groupByElement (COMMA groupByElement)*
+    ;
+
+groupByElement
+    : expression
     ;
 
 //    Literals
@@ -168,6 +181,7 @@ predicate
     | left=predicate comparisonOperator right=predicate             #binaryComparisonPredicate
     | predicate IS nullNotnull                                      #isNullPredicate
     | left=predicate NOT? LIKE right=predicate                      #likePredicate
+    | left=predicate REGEXP right=predicate                         #regexpPredicate
     ;
 
 expressionAtom
@@ -193,11 +207,18 @@ nullNotnull
 
 functionCall
     : scalarFunctionName LR_BRACKET functionArgs? RR_BRACKET        #scalarFunctionCall
+    | aggregateFunction                                             #aggregateFunctionCall
     ;
 
 scalarFunctionName
     : mathematicalFunctionName
     | dateTimeFunctionName
+    | textFunctionName
+    ;
+
+aggregateFunction
+    : functionName=(AVG | SUM) LR_BRACKET functionArg RR_BRACKET
+    /*| COUNT LR_BRACKET (STAR | functionArg) RR_BRACKET */
     ;
 
 mathematicalFunctionName
@@ -211,11 +232,18 @@ trigonometricFunctionName
     ;
 
 dateTimeFunctionName
-    : DAYOFMONTH
+    : ADDDATE | DATE | DATE_ADD | DATE_SUB | DAY | DAYNAME | DAYOFMONTH | DAYOFWEEK | DAYOFYEAR | FROM_DAYS 
+    | HOUR | MICROSECOND | MINUTE | MONTH | MONTHNAME | QUARTER | SECOND | SUBDATE | TIME | TIME_TO_SEC
+    | TIMESTAMP | TO_DAYS | YEAR
+    ;
+
+textFunctionName
+    : SUBSTR | SUBSTRING | TRIM | LTRIM | RTRIM | LOWER | UPPER
+    | CONCAT | CONCAT_WS | SUBSTR | LENGTH | STRCMP
     ;
 
 functionArgs
-    : (functionArg (COMMA functionArg)*)?
+    : functionArg (COMMA functionArg)*
     ;
 
 functionArg

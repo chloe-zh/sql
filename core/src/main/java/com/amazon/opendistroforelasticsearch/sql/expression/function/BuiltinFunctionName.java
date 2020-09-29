@@ -49,6 +49,33 @@ public enum BuiltinFunctionName {
   TAN(FunctionName.of("tan")),
 
   /**
+   * Date and Time Functions.
+   */
+  ADDDATE(FunctionName.of("adddate")),
+  DATE(FunctionName.of("date")),
+  DATE_ADD(FunctionName.of("date_add")),
+  DATE_SUB(FunctionName.of("date_sub")),
+  DAY(FunctionName.of("day")),
+  DAYNAME(FunctionName.of("dayname")),
+  DAYOFMONTH(FunctionName.of("dayofmonth")),
+  DAYOFWEEK(FunctionName.of("dayofweek")),
+  DAYOFYEAR(FunctionName.of("dayofyear")),
+  FROM_DAYS(FunctionName.of("from_days")),
+  HOUR(FunctionName.of("hour")),
+  MICROSECOND(FunctionName.of("microsecond")),
+  MINUTE(FunctionName.of("minute")),
+  MONTH(FunctionName.of("month")),
+  MONTHNAME(FunctionName.of("monthname")),
+  QUARTER(FunctionName.of("quarter")),
+  SECOND(FunctionName.of("second")),
+  SUBDATE(FunctionName.of("subdate")),
+  TIME(FunctionName.of("time")),
+  TIME_TO_SEC(FunctionName.of("time_to_sec")),
+  TIMESTAMP(FunctionName.of("timestamp")),
+  TO_DAYS(FunctionName.of("to_days")),
+  YEAR(FunctionName.of("year")),
+
+  /**
    * Text Functions.
    */
   TOSTRING(FunctionName.of("tostring")),
@@ -79,16 +106,27 @@ public enum BuiltinFunctionName {
   NOT_LIKE(FunctionName.of("not like")),
 
   /**
-   * Date and Time Functions.
-   */
-  DAYOFMONTH(FunctionName.of("dayofmonth")),
-
-  /**
    * Aggregation Function.
    */
   AVG(FunctionName.of("avg")),
   SUM(FunctionName.of("sum")),
   COUNT(FunctionName.of("count")),
+
+  /**
+   * Text Functions.
+   */
+  SUBSTR(FunctionName.of("substr")),
+  SUBSTRING(FunctionName.of("substring")),
+  RTRIM(FunctionName.of("rtrim")),
+  LTRIM(FunctionName.of("ltrim")),
+  TRIM(FunctionName.of("trim")),
+  UPPER(FunctionName.of("upper")),
+  LOWER(FunctionName.of("lower")),
+  REGEXP(FunctionName.of("regexp")),
+  CONCAT(FunctionName.of("concat")),
+  CONCAT_WS(FunctionName.of("concat_ws")),
+  LENGTH(FunctionName.of("length")),
+  STRCMP(FunctionName.of("strcmp")),
 
   /**
    * NULL Test.

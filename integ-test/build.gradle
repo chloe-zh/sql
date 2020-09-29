@@ -1,4 +1,5 @@
 import org.elasticsearch.gradle.test.RestIntegTestTask
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 apply plugin: 'elasticsearch.build'
 apply plugin: 'elasticsearch.rest-test'
@@ -115,8 +116,17 @@ task integTestWithNewEngine(type: RestIntegTestTask) {
         exclude 'com/amazon/opendistroforelasticsearch/sql/doctest/**/*IT.class'
         exclude 'com/amazon/opendistroforelasticsearch/sql/correctness/**'
 
+        // Explain IT is dependent on internal implementation of old engine so it's not necessary
+        // to run these with new engine and not necessary to make this consistent with old engine.
+        exclude 'com/amazon/opendistroforelasticsearch/sql/legacy/ExplainIT.class'
+        exclude 'com/amazon/opendistroforelasticsearch/sql/legacy/PrettyFormatterIT.class'
+        exclude 'com/amazon/opendistroforelasticsearch/sql/legacy/TermQueryExplainIT.class'
+
         // Skip old semantic analyzer IT because analyzer in new engine has different behavior
         exclude 'com/amazon/opendistroforelasticsearch/sql/legacy/QueryAnalysisIT.class'
+
+        // Skip this IT to avoid breaking tests due to inconsistency in JDBC schema
+        exclude 'com/amazon/opendistroforelasticsearch/sql/legacy/AggregationExpressionIT.class'
     }
 }
 
@@ -192,6 +202,11 @@ testClusters.comparisonTest {
 task compileJdbc(type:Exec) {
     workingDir '../sql-jdbc/'
 
-    commandLine './gradlew', 'build'
-    commandLine './gradlew', 'shadowJar'
+    if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows()) {
+        commandLine './gradlew.bat', 'build'
+        commandLine './gradlew.bat', 'shadowJar'
+    } else {
+        commandLine './gradlew', 'build'
+        commandLine './gradlew', 'shadowJar'
+    }
 }
