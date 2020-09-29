@@ -46,6 +46,10 @@ public class LogicalPlanDSL {
     return new LogicalRelation(tableName);
   }
 
+  public static LogicalPlan relation(LogicalPlan input, String tableName) {
+    return new LogicalRelation(input, tableName);
+  }
+
   public static LogicalPlan rename(
       LogicalPlan input, Map<ReferenceExpression, ReferenceExpression> renameMap) {
     return new LogicalRename(input, renameMap);

@@ -199,4 +199,24 @@ class AnalyzerTest extends AnalyzerTestBase {
     );
   }
 
+  @Test
+  public void project_source_subquery() {
+    assertAnalyzeEqual(
+        LogicalPlanDSL.project(
+            LogicalPlanDSL.relation(
+                LogicalPlanDSL.relation(
+                    "subquery_relation"
+                ),
+                "schema"
+            ),
+            DSL.named("integer_value", DSL.ref("integer_value", INTEGER))
+        ),
+        AstDSL.projectWithArg(
+            AstDSL.relation(
+                "schema",
+                AstDSL.relation("subquery_relation")
+            ),
+            AstDSL.defaultFieldsArgs(),
+            AstDSL.field("integer_value")));
+  }
 }

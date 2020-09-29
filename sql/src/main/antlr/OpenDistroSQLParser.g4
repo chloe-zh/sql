@@ -76,7 +76,7 @@ selectElement
     ;
 
 fromClause
-    : FROM (tableName | LR_BRACKET subquery=querySpecification RR_BRACKET ) (AS? alias)?
+    : FROM (tableName | (LR_BRACKET subquery=querySpecification RR_BRACKET )) (AS? alias)?
       (whereClause)?
     ;
 
