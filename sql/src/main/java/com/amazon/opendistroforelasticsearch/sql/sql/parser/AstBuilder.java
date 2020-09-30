@@ -101,20 +101,18 @@ public class AstBuilder extends OpenDistroSQLParserBaseVisitor<UnresolvedPlan> {
 
   @Override
   public UnresolvedPlan visitFromClause(FromClauseContext ctx) {
-    UnresolvedExpression tableName = visitAstExpression(ctx.tableName());
-    Relation relation;
+    UnresolvedPlan result;
+    UnresolvedExpression tableName;
     String tableAlias = (ctx.alias() == null) ? null
         : StringUtils.unquoteIdentifier(ctx.alias().getText());
 
-    UnresolvedPlan result = new Relation(tableName, tableAlias);
-
+    // subquery rather than a table name is in from clause
     if (ctx.tableName() != null) {
       tableName = visitAstExpression(ctx.tableName());
-      relation = new Relation(tableName, tableAlias);
+      result = new Relation(tableName, tableAlias);
     } else {
       tableName = QualifiedName.of("subquery");
-      relation = new Relation(tableName, tableAlias);
-      relation.attach(visitQuerySpecification(ctx.subquery));
+      result = new Relation(tableName, tableAlias).attach(visitQuerySpecification(ctx.subquery));
     }
 
     if (ctx.whereClause() != null) {

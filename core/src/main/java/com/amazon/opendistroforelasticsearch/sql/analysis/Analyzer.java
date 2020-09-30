@@ -108,18 +108,23 @@ public class Analyzer extends AbstractNodeVisitor<LogicalPlan, AnalysisContext> 
   public LogicalPlan visitRelation(Relation node, AnalysisContext context) {
     context.push();
     TypeEnvironment curEnv = context.peek();
-    Table table = storageEngine.getTable(node.getTableName());
-    table.getFieldTypes().forEach((k, v) -> curEnv.define(new Symbol(Namespace.FIELD_NAME, k), v));
+    if (node.getChild().isEmpty()) {
+      Table table = storageEngine.getTable(node.getTableName());
+      table
+          .getFieldTypes()
+          .forEach((k, v) -> curEnv.define(new Symbol(Namespace.FIELD_NAME, k), v));
 
-    // Put index name or its alias in index namespace on type environment so qualifier
-    // can be removed when analyzing qualified name. The value (expr type) here doesn't matter.
-    curEnv.define(new Symbol(Namespace.INDEX_NAME, node.getTableNameOrAlias()), STRUCT);
+      // Put index name or its alias in index namespace on type environment so qualifier
+      // can be removed when analyzing qualified name. The value (expr type) here doesn't matter.
+      curEnv.define(new Symbol(Namespace.INDEX_NAME, node.getTableNameOrAlias()), STRUCT);
 
-    // Relation might be an index, put the table name to the logical relation
-    // If the relation is a subquery, put the subquery as the index content to the logical relation
-    return node.getChild().isEmpty()
-        ? new LogicalRelation(node.getTableName())
-        : new LogicalRelation(node.getChild().get(0).accept(this, context), node.getTableName());
+      // Relation might be an index, put the table name to the logical relation
+      // If the relation is a subquery, put the subquery as the index content to the logical
+      // relation
+      return new LogicalRelation(node.getTableName());
+    } else {
+      return new LogicalRelation(visitChildren(node, context), "subquery");
+    }
   }
 
   @Override

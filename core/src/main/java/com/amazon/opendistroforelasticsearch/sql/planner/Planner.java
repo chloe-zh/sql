@@ -51,7 +51,7 @@ public class Planner {
     if (isNullOrEmpty(tableName)) {
       return plan.accept(new DefaultImplementor<>(), null);
     }
-
+    // TODO: add access to temporary index here
     Table table = storageEngine.getTable(tableName);
     return table.implement(plan);
   }
@@ -70,6 +70,9 @@ public class Planner {
 
       @Override
       public String visitRelation(LogicalRelation node, Object context) {
+        if (!node.getChild().isEmpty()) {
+          return visitNode(node.getChild().get(0), context);
+        }
         return node.getRelationName();
       }
     }, null);

@@ -38,6 +38,7 @@ import com.amazon.opendistroforelasticsearch.sql.planner.physical.HeadOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.PhysicalPlan;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.ProjectOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.RareTopNOperator;
+import com.amazon.opendistroforelasticsearch.sql.planner.physical.RelationOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.RemoveOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.RenameOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.SortOperator;
@@ -128,8 +129,12 @@ public class DefaultImplementor<C> extends LogicalPlanNodeVisitor<PhysicalPlan, 
 
   @Override
   public PhysicalPlan visitRelation(LogicalRelation node, C context) {
-    throw new UnsupportedOperationException("Storage engine is responsible for "
-        + "implementing and optimizing logical plan with relation involved");
+//    if (node.getChild().isEmpty()) {
+//      throw new UnsupportedOperationException(
+//          "Storage engine is responsible for "
+//              + "implementing and optimizing logical plan with relation involved");
+//    }
+    return new RelationOperator(visitChild(node, context));
   }
 
   protected PhysicalPlan visitChild(LogicalPlan node, C context) {
