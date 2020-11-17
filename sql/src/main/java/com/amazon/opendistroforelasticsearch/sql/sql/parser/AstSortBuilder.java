@@ -45,7 +45,7 @@ public class AstSortBuilder extends OpenDistroSQLParserBaseVisitor<UnresolvedPla
 
   @Override
   public UnresolvedPlan visitOrderByClause(OrderByClauseContext ctx) {
-    int count = 0;
+    int count = -1;
     int offset = 0;
     if (ctx.limitClause() != null) {
       count = Integer.parseInt(ctx.limitClause().limit.getText());

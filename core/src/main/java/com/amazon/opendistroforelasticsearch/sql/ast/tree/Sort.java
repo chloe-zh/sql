@@ -34,6 +34,27 @@ import lombok.ToString;
 
 /**
  * AST node for Sort {@link Sort#sortList} represent a list of sort expression and sort options.
+ * Options (arguments):
+ * First argument with default value: {"count": -1}
+ * Second argument with default value: {"offset": 0}
+ * 1. count:
+ * The argument "count" is to limit the result size, it should be type of non-negative integer.
+ * PPL rule:
+ * If no count is specified, the default limit of 10000 is used.
+ * If 0 is specified, all of the results are returned.
+ * SQL rule (where key word is LIMIT instead):
+ * If no limit is specified, all results are returned.
+ * Else return the results with the limit size,
+ * Or all of the results if the original results have a smaller size than the specified limit.
+ * To distinguish the argument meanings of PPL and SQL,
+ * PPL count is set to 1000 by default, and is to -1 when the input count is 0.
+ * SQL limit is set to -1 by default.
+ * Where -1 is translated to all fields in
+ * {@link com.amazon.opendistroforelasticsearch.sql.planner.physical.SortOperator}.
+ * 2. offset:
+ * This argument is to set the offset rows to skip from the results, specifically in SQL.
+ * The offset rows are skipped before starting to count the limit.
+ * Offset is set to 0 by default.
  */
 @ToString
 @EqualsAndHashCode(callSuper = false)

@@ -131,7 +131,9 @@ public class ArgumentFactory {
   public static List<Argument> getArgumentList(SortCommandContext ctx) {
     return Arrays.asList(
         ctx.count != null
-            ? new Argument("count", getArgumentValue(ctx.count))
+            ? new Argument("count",
+            ctx.count.getText().equals("0")
+            ? new Literal("-1", DataType.INTEGER) : getArgumentValue(ctx.count))
             : new Argument("count", new Literal(1000, DataType.INTEGER)),
         new Argument("offset", new Literal(0, DataType.INTEGER)),
         ctx.D() != null || ctx.DESC() != null

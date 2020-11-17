@@ -47,7 +47,9 @@ public class SortOperator extends PhysicalPlan {
   @Getter
   private final PhysicalPlan input;
   /**
-   * How many sorted result should been return. If count = 0, all the resulted will be returned.
+   * How many sorted result should been return.
+   * If count = -1, which is taken from PPL sort command with count argument originally being 0,
+   * all the resulted will be returned.
    */
   @Getter
   private final Integer count;
@@ -102,7 +104,7 @@ public class SortOperator extends PhysicalPlan {
     }
 
     Iterator<ExprValue> sortedIterator = offset(iterator(sorted), offset);
-    iterator = count == 0 ? sortedIterator : Iterators.limit(sortedIterator, count);
+    iterator = count == -1 ? sortedIterator : Iterators.limit(sortedIterator, count);
   }
 
   @Override

@@ -67,13 +67,13 @@ public class JdbcTestIT extends SQLIntegTestCase {
 
   public void testDivisionInQuery() {
     JSONObject response = executeJdbcRequest(
-        "SELECT all_client/10 from elasticsearch-sql_test_index_online ORDER BY all_client/10 desc limit 1");
+        "SELECT balance/10 from elasticsearch-sql_test_index_people ORDER BY balance/10 desc limit 1");
 
     assertThat(
         response.getJSONArray("datarows")
             .getJSONArray(0)
             .getDouble(0),
-        equalTo(16827.0));
+        equalTo(4808.0));
   }
 
   public void testGroupByInQuery() {
