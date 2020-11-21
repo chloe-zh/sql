@@ -38,6 +38,7 @@ import com.amazon.opendistroforelasticsearch.sql.planner.physical.DedupeOperator
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.EvalOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.FilterOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.HeadOperator;
+import com.amazon.opendistroforelasticsearch.sql.planner.physical.LimitOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.PhysicalPlan;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.ProjectOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.RareTopNOperator;
@@ -61,6 +62,15 @@ public class DefaultImplementor<C> extends LogicalPlanNodeVisitor<PhysicalPlan, 
 
   @Override
   public PhysicalPlan visitRareTopN(LogicalRareTopN node, C context) {
+    if (node.isLimitPlan()) {
+      return new LimitOperator(
+          visitChild(node, context),
+          node.getCommandType(),
+          node.getNoOfResults(),
+          node.getOffset(),
+          node.getFieldList()
+      );
+    }
     return new RareTopNOperator(
         visitChild(node, context),
         node.getCommandType(),

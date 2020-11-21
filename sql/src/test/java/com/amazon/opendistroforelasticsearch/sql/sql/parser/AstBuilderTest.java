@@ -21,19 +21,24 @@ import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.aggregate
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.alias;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.argument;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.booleanLiteral;
+import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.defaultSortFieldArgs;
+import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.defaultSortOptions;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.doubleLiteral;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.field;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.filter;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.function;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.intLiteral;
+import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.limit;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.project;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.qualifiedName;
+import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.rareTopN;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.relation;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.relationSubquery;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.sort;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.stringLiteral;
 import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.values;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -429,6 +434,57 @@ class AstBuilderTest {
                 + "SELECT firstname AS first, lastname AS last FROM test"
                 + ") AS a where age > 20"
         )
+    );
+  }
+
+  @Test
+  public void can_build_limit_clause_without_sort() {
+    assertEquals(
+        project(
+            limit(
+                relation("test"),
+                10,
+                5,
+                field("name")
+            ),
+            alias("name", qualifiedName("name"))
+        ),
+        buildAST("SELECT name FROM test LIMIT 10 OFFSET 5")
+    );
+
+    assertEquals(
+        project(
+            limit(
+                relation("test"),
+                10,
+                5,
+                field("name")
+            ),
+            alias("name", qualifiedName("name"))
+        ),
+        buildAST("SELECT name FROM test LIMIT 5, 10")
+    );
+  }
+
+  @Test
+  public void can_build_limit_clause_with_sort() {
+    assertEquals(
+        project(
+            limit(
+                sort(
+                    relation("test"),
+                    ImmutableList.of(argument("count", intLiteral(0))),
+                    field("age", argument("asc", booleanLiteral(true)))
+                ),
+                10,
+                0,
+                field("name"),
+                field("age")
+            ),
+            alias("name", qualifiedName("name")),
+            alias("age", qualifiedName("age"))
+        ),
+        buildAST("SELECT name, age FROM test ORDER BY age LIMIT 10")
     );
   }
 

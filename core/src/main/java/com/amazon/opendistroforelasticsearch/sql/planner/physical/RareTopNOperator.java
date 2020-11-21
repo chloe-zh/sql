@@ -24,7 +24,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -53,14 +52,14 @@ public class RareTopNOperator extends PhysicalPlan {
   @Getter
   private final Integer noOfResults;
   @Getter
-  private final List<Expression> fieldExprList;
+  protected final List<Expression> fieldExprList;
   @Getter
-  private final List<Expression> groupByExprList;
+  protected final List<Expression> groupByExprList;
 
   @EqualsAndHashCode.Exclude
-  private final Group group;
+  protected Group group;
   @EqualsAndHashCode.Exclude
-  private Iterator<ExprValue> iterator;
+  protected Iterator<ExprValue> iterator;
 
   private static final Integer DEFAULT_NO_OF_RESULTS = 10;
 

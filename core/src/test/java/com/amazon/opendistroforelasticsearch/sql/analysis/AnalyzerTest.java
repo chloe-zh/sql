@@ -533,4 +533,25 @@ class AnalyzerTest extends AnalyzerTestBase {
                     aggregate("avg", qualifiedName("integer_value")))))
     );
   }
+
+  @Test
+  public void limit_offset() {
+    assertAnalyzeEqual(
+        LogicalPlanDSL.project(
+            LogicalPlanDSL.limit(
+                LogicalPlanDSL.relation("schema"),
+                1, 1, DSL.ref("integer_value", INTEGER)
+            ),
+            DSL.named("integer_value", DSL.ref("integer_value", INTEGER))
+        ),
+        AstDSL.project(
+            AstDSL.limit(
+                AstDSL.relation("schema"),
+                1, 1,
+                field("integer_value")
+            ),
+            AstDSL.alias("integer_value", qualifiedName("integer_value"))
+        )
+    );
+  }
 }

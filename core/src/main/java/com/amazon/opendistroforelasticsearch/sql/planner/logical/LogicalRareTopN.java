@@ -17,12 +17,10 @@ package com.amazon.opendistroforelasticsearch.sql.planner.logical;
 
 import com.amazon.opendistroforelasticsearch.sql.ast.tree.RareTopN.CommandType;
 import com.amazon.opendistroforelasticsearch.sql.expression.Expression;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -37,6 +35,8 @@ public class LogicalRareTopN extends LogicalPlan {
   private final Integer noOfResults;
   private final List<Expression> fieldList;
   private final List<Expression> groupByList;
+  private Integer offset = 0;
+  private boolean isLimitPlan = false;
 
   /**
    * Constructor of LogicalRareTopN.
@@ -53,8 +53,29 @@ public class LogicalRareTopN extends LogicalPlan {
     this.groupByList = groupByList;
   }
 
+  /**
+   * Constructor of LogicalRareTopN with extra offset property.
+   */
+  public LogicalRareTopN(
+      LogicalPlan child,
+      CommandType commandType, Integer noOfResults, Integer offset,
+      List<Expression> fieldList,
+      List<Expression> groupByList) {
+    super(Collections.singletonList(child));
+    this.commandType = commandType;
+    this.noOfResults = noOfResults;
+    this.offset = offset;
+    this.fieldList = fieldList;
+    this.groupByList = groupByList;
+  }
+
   @Override
   public <R, C> R accept(LogicalPlanNodeVisitor<R, C> visitor, C context) {
     return visitor.visitRareTopN(this, context);
+  }
+
+  public LogicalRareTopN markAsLimitPlan() {
+    this.isLimitPlan = true;
+    return this;
   }
 }

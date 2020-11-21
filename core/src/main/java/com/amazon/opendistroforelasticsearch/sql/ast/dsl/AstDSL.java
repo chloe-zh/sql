@@ -15,6 +15,8 @@
 
 package com.amazon.opendistroforelasticsearch.sql.ast.dsl;
 
+import static java.util.Collections.emptyList;
+
 import com.amazon.opendistroforelasticsearch.sql.ast.expression.AggregateFunction;
 import com.amazon.opendistroforelasticsearch.sql.ast.expression.Alias;
 import com.amazon.opendistroforelasticsearch.sql.ast.expression.And;
@@ -374,5 +376,16 @@ public class AstDSL {
       List<Argument> noOfResults, List<UnresolvedExpression> groupList, Field... fields) {
     return new RareTopN(input, commandType, noOfResults, Arrays.asList(fields), groupList)
         .attach(input);
+  }
+
+  /**
+   * build Limit node using {@link RareTopN}.
+   */
+  public static RareTopN limit(
+      UnresolvedPlan input, Integer limit, Integer offset, Field... fields) {
+    return new RareTopN(
+        CommandType.TOP, Arrays.asList(argument("noOfResults", intLiteral(limit))),
+        Arrays.asList(fields), emptyList())
+        .setOffset(offset).markAsLimitPlan().attach(input);
   }
 }

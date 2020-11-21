@@ -56,7 +56,9 @@ class PhysicalPlanNodeVisitorTest extends PhysicalPlanTestBase {
                         PhysicalPlanDSL.head(
                             PhysicalPlanDSL.rareTopN(
                                 PhysicalPlanDSL.filter(
-                                    new TestScan(),
+                                    PhysicalPlanDSL.limit(
+                                        new TestScan(),
+                                        5, 5, DSL.ref("response", INTEGER)),
                                     dsl.equal(DSL.ref("response", INTEGER), DSL.literal(10))),
                                 CommandType.TOP,
                                 ImmutableList.of(),
@@ -79,7 +81,8 @@ class PhysicalPlanNodeVisitorTest extends PhysicalPlanTestBase {
             + "\t\t\tAggregation->\n"
             + "\t\t\t\tHead->\n"
             + "\t\t\t\t\tRareTopN->\n"
-            + "\t\t\t\t\t\tFilter->",
+            + "\t\t\t\t\t\tFilter->\n"
+            + "\t\t\t\t\t\t\tLimit->",
         printer.print(plan));
   }
 
@@ -143,6 +146,10 @@ class PhysicalPlanNodeVisitorTest extends PhysicalPlanTestBase {
         PhysicalPlanDSL.rareTopN(plan, CommandType.TOP, 5, ImmutableList.of(), ref);
     assertNull(rareTopN.accept(new PhysicalPlanNodeVisitor<Integer, Object>() {
     }, null));
+
+    PhysicalPlan limit = PhysicalPlanDSL.limit(plan, 5, 5, ref);
+    assertNull(limit.accept(new PhysicalPlanNodeVisitor<Integer, Object>() {
+    }, null));
   }
 
   public static class PhysicalPlanPrinter extends PhysicalPlanNodeVisitor<String, Integer> {
@@ -184,6 +191,11 @@ class PhysicalPlanNodeVisitorTest extends PhysicalPlanTestBase {
     @Override
     public String visitRareTopN(RareTopNOperator node, Integer tabs) {
       return name(node, "RareTopN->", tabs);
+    }
+
+    @Test
+    public String visitLimit(LimitOperator node, Integer tabs) {
+      return name(node, "Limit->", tabs);
     }
 
     private String name(PhysicalPlan node, String current, int tabs) {

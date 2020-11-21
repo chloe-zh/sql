@@ -15,6 +15,8 @@
 
 package com.amazon.opendistroforelasticsearch.sql.planner.logical;
 
+import static java.util.Collections.emptyList;
+
 import com.amazon.opendistroforelasticsearch.sql.ast.tree.RareTopN.CommandType;
 import com.amazon.opendistroforelasticsearch.sql.ast.tree.Sort.SortOption;
 import com.amazon.opendistroforelasticsearch.sql.expression.Expression;
@@ -105,6 +107,15 @@ public class LogicalPlanDSL {
   public static LogicalPlan rareTopN(LogicalPlan input, CommandType commandType, int noOfResults,
       List<Expression> groupByList, Expression... fields) {
     return new LogicalRareTopN(input, commandType, noOfResults, Arrays.asList(fields), groupByList);
+  }
+
+  /**
+   * Build Limit logical plan using {@link LogicalRareTopN}.
+   */
+  public static LogicalPlan limit(LogicalPlan input, int limit, int offset, Expression... fields) {
+    return new LogicalRareTopN(
+        input, CommandType.TOP, limit, offset, Arrays.asList(fields), emptyList())
+        .markAsLimitPlan();
   }
 
   public static LogicalPlan indexScan(String tableName, Expression filter) {

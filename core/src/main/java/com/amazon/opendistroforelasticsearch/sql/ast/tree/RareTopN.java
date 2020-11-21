@@ -44,6 +44,24 @@ public class RareTopN extends UnresolvedPlan {
   private final List<Argument> noOfResults;
   private final List<Field> fields;
   private final List<UnresolvedExpression> groupExprList;
+  private Integer offset = 0;
+  private boolean isLimitNode = false;
+
+  /**
+   * Constructor.
+   */
+  public RareTopN(
+      UnresolvedPlan input,
+      CommandType commandType,
+      List<Argument> noOfResults,
+      List<Field> fields,
+      List<UnresolvedExpression> groupList) {
+    this.child = input;
+    this.commandType = commandType;
+    this.noOfResults = noOfResults;
+    this.fields = fields;
+    this.groupExprList = groupList;
+  }
 
   @Override
   public RareTopN attach(UnresolvedPlan child) {
@@ -59,6 +77,16 @@ public class RareTopN extends UnresolvedPlan {
   @Override
   public <T, C> T accept(AbstractNodeVisitor<T, C> nodeVisitor, C context) {
     return nodeVisitor.visitRareTopN(this, context);
+  }
+
+  public RareTopN setOffset(Integer offset) {
+    this.offset = offset;
+    return this;
+  }
+
+  public RareTopN markAsLimitPlan() {
+    this.isLimitNode = true;
+    return this;
   }
 
   public enum CommandType {

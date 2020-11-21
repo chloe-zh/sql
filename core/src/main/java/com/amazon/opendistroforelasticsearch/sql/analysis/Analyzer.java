@@ -70,6 +70,7 @@ import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -109,7 +110,7 @@ public class Analyzer extends AbstractNodeVisitor<LogicalPlan, AnalysisContext> 
   public LogicalPlan visitRelation(Relation node, AnalysisContext context) {
     context.push();
     TypeEnvironment curEnv = context.peek();
-    Table table = storageEngine.getTable(node.getTableName());
+    Table table = storageEngine.getTable(node.getTableName(), 0);
     table.getFieldTypes().forEach((k, v) -> curEnv.define(new Symbol(Namespace.FIELD_NAME, k), v));
 
     // Put index name or its alias in index namespace on type environment so qualifier
@@ -231,7 +232,12 @@ public class Analyzer extends AbstractNodeVisitor<LogicalPlan, AnalysisContext> 
     List<Argument> options = node.getNoOfResults();
     Integer noOfResults = (Integer) options.get(0).getValue().getValue();
 
-    return new LogicalRareTopN(child, node.getCommandType(), noOfResults, fields, groupBys);
+    LogicalRareTopN result = new LogicalRareTopN(
+        child, node.getCommandType(), noOfResults, node.getOffset(), fields, groupBys);
+    if (node.isLimitNode()) {
+      return result.markAsLimitPlan();
+    }
+    return result;
   }
 
   /**

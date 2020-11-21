@@ -85,7 +85,21 @@ public class AstBuilder extends OpenDistroSQLParserBaseVisitor<UnresolvedPlan> {
       return project.attach(emptyValue);
     }
 
-    UnresolvedPlan result = project.attach(visit(queryContext.fromClause()));
+    // If limit (and offset) keyword exists:
+    // Add Limit node (RareTopN with markedAsLimitNode=true).
+    // Structure of resulted plan:
+    // Project -> Limit -> visit(fromClause)
+    // Else:
+    // Project -> visit(fromClause)
+    UnresolvedPlan result;
+    if (queryContext.limitClause() != null) {
+      AstLimitBuilder builder = new AstLimitBuilder(context.peek());
+      result = project.attach(builder.visit(queryContext.limitClause())
+          .attach(visit(queryContext.fromClause())));
+    } else {
+      result = project.attach(visit(queryContext.fromClause()));
+    }
+
     context.pop();
     return result;
   }

@@ -105,6 +105,11 @@ public class PhysicalPlanDSL {
         groups);
   }
 
+  public static LimitOperator limit(
+      PhysicalPlan input, int limit, int offset, Expression... fields) {
+    return new LimitOperator(input, CommandType.TOP, limit, offset, Arrays.asList(fields));
+  }
+
   @SafeVarargs
   public ValuesOperator values(List<LiteralExpression>... values) {
     return new ValuesOperator(Arrays.asList(values));

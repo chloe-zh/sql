@@ -65,11 +65,11 @@ public class ElasticsearchIndexScan extends TableScanOperator {
    * Todo.
    */
   public ElasticsearchIndexScan(ElasticsearchClient client,
-                                Settings settings, String indexName,
+                                Settings settings, String indexName, Integer size,
                                 ElasticsearchExprValueFactory exprValueFactory) {
     this.client = client;
-    this.request = new ElasticsearchQueryRequest(indexName,
-        settings.getSettingValue(Settings.Key.QUERY_SIZE_LIMIT), exprValueFactory);
+    this.request = new ElasticsearchQueryRequest(
+        indexName, calculateScanSize(settings, size), exprValueFactory);
   }
 
   @Override
@@ -143,6 +143,17 @@ public class ElasticsearchIndexScan extends TableScanOperator {
 
   private boolean isBoolFilterQuery(QueryBuilder current) {
     return (current instanceof BoolQueryBuilder);
+  }
+
+
+  /**
+   * Util method to decide on the size to scan table.
+   * If the requested size from query is larger than the query size limit in plugin setting,
+   * the limit in query should be able to override the plugin setting,
+   * and scan at least a size of the user-requested size (= limit + offset).
+   */
+  private Integer calculateScanSize(Settings settings, Integer requestedSize) {
+    return Math.max(settings.getSettingValue(Settings.Key.QUERY_SIZE_LIMIT), requestedSize);
   }
 
 }

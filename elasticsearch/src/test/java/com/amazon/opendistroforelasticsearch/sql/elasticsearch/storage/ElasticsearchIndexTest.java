@@ -89,6 +89,9 @@ class ElasticsearchIndexTest {
   @Mock
   private Settings settings;
 
+  @Mock
+  private Integer size;
+
   @Test
   void getFieldTypes() {
     when(client.getIndexMappings("test"))
@@ -112,7 +115,7 @@ class ElasticsearchIndexTest {
                         .put("blob", "binary")
                         .build())));
 
-    Table index = new ElasticsearchIndex(client, settings, "test");
+    Table index = new ElasticsearchIndex(client, settings, "test", size);
     Map<String, ExprType> fieldTypes = index.getFieldTypes();
     assertThat(
         fieldTypes,
@@ -140,9 +143,9 @@ class ElasticsearchIndexTest {
 
     String indexName = "test";
     LogicalPlan plan = relation(indexName);
-    Table index = new ElasticsearchIndex(client, settings, indexName);
+    Table index = new ElasticsearchIndex(client, settings, indexName, size);
     assertEquals(
-        new ElasticsearchIndexScan(client, settings, indexName, exprValueFactory),
+        new ElasticsearchIndexScan(client, settings, indexName, size, exprValueFactory),
         index.implement(plan));
   }
 
@@ -183,7 +186,7 @@ class ElasticsearchIndexTest {
                 dedupeField),
             include);
 
-    Table index = new ElasticsearchIndex(client, settings, indexName);
+    Table index = new ElasticsearchIndex(client, settings, indexName, size);
     assertEquals(
         PhysicalPlanDSL.project(
             PhysicalPlanDSL.dedupe(
@@ -191,7 +194,7 @@ class ElasticsearchIndexTest {
                     PhysicalPlanDSL.eval(
                         PhysicalPlanDSL.remove(
                             PhysicalPlanDSL.rename(
-                                new ElasticsearchIndexScan(client, settings, indexName,
+                                new ElasticsearchIndexScan(client, settings, indexName, size,
                                     exprValueFactory),
                                 mappings),
                             exclude),
@@ -212,7 +215,7 @@ class ElasticsearchIndexTest {
     Expression filterExpr = dsl.equal(field, literal("John"));
 
     String indexName = "test";
-    ElasticsearchIndex index = new ElasticsearchIndex(client, settings, indexName);
+    ElasticsearchIndex index = new ElasticsearchIndex(client, settings, indexName, size);
     PhysicalPlan plan = index.implement(
         project(
             indexScan(
@@ -237,7 +240,7 @@ class ElasticsearchIndexTest {
             DOUBLE)));
 
     String indexName = "test";
-    ElasticsearchIndex index = new ElasticsearchIndex(client, settings, indexName);
+    ElasticsearchIndex index = new ElasticsearchIndex(client, settings, indexName, size);
     PhysicalPlan plan = index.implement(
         filter(
             aggregation(
@@ -262,7 +265,7 @@ class ElasticsearchIndexTest {
             DOUBLE)));
 
     String indexName = "test";
-    ElasticsearchIndex index = new ElasticsearchIndex(client, settings, indexName);
+    ElasticsearchIndex index = new ElasticsearchIndex(client, settings, indexName, size);
 
     // IndexScanAgg without Filter
     PhysicalPlan plan = index.implement(
@@ -298,7 +301,7 @@ class ElasticsearchIndexTest {
             DOUBLE)));
 
     String indexName = "test";
-    ElasticsearchIndex index = new ElasticsearchIndex(client, settings, indexName);
+    ElasticsearchIndex index = new ElasticsearchIndex(client, settings, indexName, size);
 
     PhysicalPlan plan = index.implement(
         aggregation(

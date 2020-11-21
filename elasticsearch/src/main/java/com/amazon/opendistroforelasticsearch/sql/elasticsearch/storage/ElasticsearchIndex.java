@@ -37,12 +37,13 @@ import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 
 /** Elasticsearch table (index) implementation. */
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ElasticsearchIndex implements Table {
 
   /**
@@ -79,6 +80,8 @@ public class ElasticsearchIndex implements Table {
   /** Current Elasticsearch index name. */
   private final String indexName;
 
+  private final Integer size;
+
   /*
    * TODO: Assume indexName doesn't have wildcard.
    *  Need to either handle field name conflicts
@@ -97,7 +100,7 @@ public class ElasticsearchIndex implements Table {
   /** TODO: Push down operations to index scan operator as much as possible in future. */
   @Override
   public PhysicalPlan implement(LogicalPlan plan) {
-    ElasticsearchIndexScan indexScan = new ElasticsearchIndexScan(client, settings, indexName,
+    ElasticsearchIndexScan indexScan = new ElasticsearchIndexScan(client, settings, indexName, size,
         new ElasticsearchExprValueFactory(getFieldTypes()));
 
     /*

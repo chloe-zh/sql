@@ -15,6 +15,7 @@
 
 package com.amazon.opendistroforelasticsearch.sql.planner.physical;
 
+import static java.util.Collections.emptyList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,7 +37,7 @@ public class RareTopNOperatorTest extends PhysicalPlanTestBase {
     PhysicalPlan plan = new RareTopNOperator(new TestScan(),
         CommandType.RARE,
         Collections.singletonList(DSL.ref("action", ExprCoreType.STRING)),
-        Collections.emptyList());
+        emptyList());
     List<ExprValue> result = execute(plan);
     assertEquals(2, result.size());
     assertThat(result, containsInAnyOrder(
@@ -66,7 +67,7 @@ public class RareTopNOperatorTest extends PhysicalPlanTestBase {
     PhysicalPlan plan = new RareTopNOperator(new TestScan(),
         CommandType.TOP,
         Collections.singletonList(DSL.ref("action", ExprCoreType.STRING)),
-        Collections.emptyList());
+        emptyList());
     List<ExprValue> result = execute(plan);
     assertEquals(2, result.size());
     assertThat(result, containsInAnyOrder(
@@ -81,7 +82,7 @@ public class RareTopNOperatorTest extends PhysicalPlanTestBase {
         CommandType.TOP,
         1,
         Collections.singletonList(DSL.ref("action", ExprCoreType.STRING)),
-        Collections.emptyList());
+        emptyList());
     List<ExprValue> result = execute(plan);
     assertEquals(1, result.size());
     assertThat(result, containsInAnyOrder(
@@ -102,5 +103,35 @@ public class RareTopNOperatorTest extends PhysicalPlanTestBase {
         ExprValueUtils.tupleValue(ImmutableMap.of("action", "POST", "response", 200)),
         ExprValueUtils.tupleValue(ImmutableMap.of("action", "GET", "response", 200))
     ));
+  }
+
+  @Test
+  public void limit() {
+    PhysicalPlan plan = new LimitOperator(new TestScan(), CommandType.TOP, 1, 0,
+        Collections.singletonList(DSL.ref("response", ExprCoreType.INTEGER)));
+    List<ExprValue> result = execute(plan);
+    assertEquals(1, result.size());
+    assertThat(result, containsInAnyOrder(
+        ExprValueUtils.tupleValue(ImmutableMap.of("response", 200))
+    ));
+  }
+
+  @Test
+  public void limit_and_offset() {
+    PhysicalPlan plan = new LimitOperator(new TestScan(), CommandType.TOP, 1, 1,
+        Collections.singletonList(DSL.ref("response", ExprCoreType.INTEGER)));
+    List<ExprValue> result = execute(plan);
+    assertEquals(1, result.size());
+    assertThat(result, containsInAnyOrder(
+        ExprValueUtils.tupleValue(ImmutableMap.of("response", 404))
+    ));
+  }
+
+  @Test
+  public void offset_exceeds_row_number() {
+    PhysicalPlan plan = new LimitOperator(new TestScan(), CommandType.TOP, 1, 6,
+        Collections.singletonList(DSL.ref("response", ExprCoreType.INTEGER)));
+    List<ExprValue> result = execute(plan);
+    assertEquals(0, result.size());
   }
 }

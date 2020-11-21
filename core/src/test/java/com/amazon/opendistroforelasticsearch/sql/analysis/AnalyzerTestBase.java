@@ -48,7 +48,7 @@ public class AnalyzerTestBase {
   protected StorageEngine storageEngine() {
     return new StorageEngine() {
       @Override
-      public Table getTable(String name) {
+      public Table getTable(String name, Integer size) {
         return new Table() {
           @Override
           public Map<String, ExprType> getFieldTypes() {
@@ -131,6 +131,7 @@ public class AnalyzerTestBase {
   }
 
   protected LogicalPlan analyze(UnresolvedPlan unresolvedPlan) {
-    return analyzer.analyze(unresolvedPlan, analysisContext);
+    LogicalPlan plan = analyzer.analyze(unresolvedPlan, analysisContext);
+    return plan;
   }
 }

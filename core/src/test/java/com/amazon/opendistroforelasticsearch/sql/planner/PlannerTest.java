@@ -31,11 +31,13 @@ import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalFilter;
 import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalPlan;
 import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalPlanDSL;
 import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalPlanNodeVisitor;
+import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalRareTopN;
 import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalRelation;
 import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalRename;
 import com.amazon.opendistroforelasticsearch.sql.planner.optimizer.LogicalPlanOptimizer;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.AggregationOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.FilterOperator;
+import com.amazon.opendistroforelasticsearch.sql.planner.physical.LimitOperator;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.PhysicalPlan;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.PhysicalPlanDSL;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.PhysicalPlanTestBase;
@@ -65,7 +67,7 @@ public class PlannerTest extends PhysicalPlanTestBase {
 
   @BeforeEach
   public void setUp() {
-    when(storageEngine.getTable(any())).thenReturn(new MockTable());
+    when(storageEngine.getTable(any(), any())).thenReturn(new MockTable());
   }
 
   @Test
@@ -75,7 +77,10 @@ public class PlannerTest extends PhysicalPlanTestBase {
         PhysicalPlanDSL.rename(
             PhysicalPlanDSL.agg(
                 PhysicalPlanDSL.filter(
-                    scan,
+                    PhysicalPlanDSL.limit(
+                        scan,
+                        1, 1, DSL.ref("response", INTEGER)
+                    ),
                     dsl.equal(DSL.ref("response", INTEGER), DSL.literal(10))
                 ),
                 ImmutableList.of(DSL.named("avg(response)", dsl.avg(DSL.ref("response", INTEGER)))),
@@ -86,7 +91,10 @@ public class PlannerTest extends PhysicalPlanTestBase {
         LogicalPlanDSL.rename(
             LogicalPlanDSL.aggregation(
                 LogicalPlanDSL.filter(
-                    LogicalPlanDSL.relation("schema"),
+                    LogicalPlanDSL.limit(
+                        LogicalPlanDSL.relation("schema"),
+                        1, 1, DSL.ref("response", INTEGER)
+                    ),
                     dsl.equal(DSL.ref("response", INTEGER), DSL.literal(10))
                 ),
                 ImmutableList.of(DSL.named("avg(response)", dsl.avg(DSL.ref("response", INTEGER)))),
@@ -159,6 +167,16 @@ public class PlannerTest extends PhysicalPlanTestBase {
     public PhysicalPlan visitRename(LogicalRename plan, Object context) {
       return new RenameOperator(plan.getChild().get(0).accept(this, context),
           plan.getRenameMap());
+    }
+
+    @Override
+    public PhysicalPlan visitRareTopN(LogicalRareTopN plan, Object context) {
+      if (plan.isLimitPlan()) {
+        return new LimitOperator(
+            plan.getChild().get(0).accept(this, context),
+            plan.getCommandType(), plan.getNoOfResults(), plan.getOffset(), plan.getFieldList());
+      }
+      return super.visitRareTopN(plan, context);
     }
   }
 }

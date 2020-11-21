@@ -20,6 +20,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 
 import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalPlan;
 import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalPlanNodeVisitor;
+import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalRareTopN;
 import com.amazon.opendistroforelasticsearch.sql.planner.logical.LogicalRelation;
 import com.amazon.opendistroforelasticsearch.sql.planner.optimizer.LogicalPlanOptimizer;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.PhysicalPlan;
@@ -55,7 +56,8 @@ public class Planner {
       return plan.accept(new DefaultImplementor<>(), null);
     }
 
-    Table table = storageEngine.getTable(tableName);
+    Integer size = tableScanSize(plan);
+    Table table = storageEngine.getTable(tableName, size);
     return table.implement(optimize(plan));
   }
 
@@ -74,6 +76,25 @@ public class Planner {
       @Override
       public String visitRelation(LogicalRelation node, Object context) {
         return node.getRelationName();
+      }
+    }, null);
+  }
+
+  private Integer tableScanSize(LogicalPlan plan) {
+    return plan.accept(new LogicalPlanNodeVisitor<Integer, Object>() {
+      @Override
+      protected Integer visitNode(LogicalPlan node, Object context) {
+        if (node.getChild().isEmpty()) {
+          return 0;
+        }
+        return node.getChild().get(0).accept(this, context);
+      }
+
+      @Override
+      public Integer visitRareTopN(LogicalRareTopN node, Object context) {
+        // At least (limit + offset) amount of rows should be fetched
+        // from the standpoint of logical planning
+        return node.getNoOfResults() + node.getOffset();
       }
     }, null);
   }
