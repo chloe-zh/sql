@@ -17,6 +17,9 @@
 
 package com.amazon.opendistroforelasticsearch.sql.elasticsearch.storage.script.aggregation;
 
+import static java.util.Collections.singletonList;
+
+
 import com.amazon.opendistroforelasticsearch.sql.ast.tree.Sort;
 import com.amazon.opendistroforelasticsearch.sql.data.type.ExprType;
 import com.amazon.opendistroforelasticsearch.sql.elasticsearch.storage.script.aggregation.dsl.BucketAggregationBuilder;
@@ -30,7 +33,6 @@ import com.amazon.opendistroforelasticsearch.sql.expression.aggregation.NamedAgg
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -79,12 +81,10 @@ public class AggregationQueryBuilder extends ExpressionNodeVisitor<AggregationBu
       List<NamedExpression> groupByList,
       List<Pair<Sort.SortOption, Expression>> sortList) {
     if (groupByList.isEmpty()) {
-      // no bucket
-      return ImmutableList
-          .copyOf(metricBuilder.build(namedAggregatorList).getAggregatorFactories());
+      return ImmutableList.copyOf(metricBuilder.build(namedAggregatorList).getAggregatorFactories());
     } else {
       final GroupSortOrder groupSortOrder = new GroupSortOrder(sortList);
-      return Collections.singletonList(AggregationBuilders.composite("composite_buckets",
+      return singletonList(AggregationBuilders.composite("composite_buckets",
           bucketBuilder
               .build(groupByList.stream().sorted(groupSortOrder).map(expr -> Pair.of(expr,
                   groupSortOrder.apply(expr))).collect(Collectors.toList())))

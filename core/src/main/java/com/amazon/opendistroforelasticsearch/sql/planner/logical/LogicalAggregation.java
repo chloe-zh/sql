@@ -54,13 +54,4 @@ public class LogicalAggregation extends LogicalPlan {
     return visitor.visitAggregation(this, context);
   }
 
-  public boolean hasFilterFunction() {
-    AtomicBoolean result = new AtomicBoolean(false);
-    aggregatorList.forEach(agg -> {
-      if (agg.getDelegated().condition() != null) {
-        result.set(true);
-      }
-    });
-    return result.get();
-  }
 }
